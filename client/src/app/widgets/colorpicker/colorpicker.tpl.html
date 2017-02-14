@@ -1,0 +1,15 @@
+
+
+<div class="checkbox">
+    <div ng-repeat="item in queryconfig.data" class="cp-container">
+
+            <div class = "cp-box" 
+                 ng-class = "queryconfig.data[$index].value ? 'cp-selected' : 'cp-unselected'" 
+                 ng-click="queryconfig.data[$index].value = !queryconfig.data[$index].value; colorPickerClicked(item);" 
+                 ng-model="queryconfig.data[$index].value" style="background-color:{{queryconfig.data[$index].id}}" >
+            </div>
+
+    </div>
+    <div style=" clear:both"></div>
+</div>
+

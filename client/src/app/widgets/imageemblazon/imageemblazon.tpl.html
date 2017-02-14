@@ -1,0 +1,19 @@
+<div>
+    <div class="col-sm-2">
+        <!-- insert the thumb images in this div-->
+        <span ng-repeat="item in imgobj.thumbs" class="thumbs-container">
+            <img 
+                 ng-src="img/products/thumb/{{item}}" 
+                 ng-click="selectThumb($index)"  
+            />
+        </span>
+    </div>     
+    <div class="col-sm-4">
+        <div>
+            <img imagezoomer id="zoomImage"
+                 ng-src="{{imgobj.smallimg}}"
+             zoom-image="{{imgobj.largeimg}}"
+            />
+        </div>
+    </div>   
+<div>

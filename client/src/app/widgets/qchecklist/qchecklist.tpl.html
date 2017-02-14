@@ -1,0 +1,11 @@
+
+<div class="checkbox">
+    <ul>
+        <li ng-repeat="item in queryconfig.data">
+            <input type="checkbox" ng-model="queryconfig.data[$index].value" ng-click="checkListClicked()" >{{item.label}}
+           
+        </li>
+    </ul>    
+</div>
+
+

@@ -1,0 +1,11 @@
+
+
+    <ul class="nav navbar-nav collapse navbar-collapse">
+        <li><a ui-sref="main.home" class="active" ui-sref-active="active">Home</a></li>
+        
+        <li ng-repeat="item in $ctrl.menuitems">
+            <a ui-sref="main.productcategory({_id:'{{item._id}}'})" ui-sref-active="active">{{item.categoryLabel}}</a>
+        </li>
+
+    </ul>
+

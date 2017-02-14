@@ -1,0 +1,20 @@
+<div ng-repeat='queryconfig in queryConfigs' >
+
+    <h2>{{queryconfig.label}}</h2>
+  
+    <div ng-if="queryconfig.querycomponent == 'checklist'">
+    	<div qchecklist queryconfig='queryconfig'></div>
+    </div>
+    
+    <div ng-if="queryconfig.querycomponent == 'colorpicker'">
+        <div colorpicker queryconfig = 'queryconfig'  queryindex = '$index'></div>
+    </div>
+
+    <div ng-if="queryconfig.querycomponent == 'rangeslider'">
+        <div rangeslider queryconfig = 'queryconfig'  queryindex = '$index'></div>
+    </div> 
+       
+</div> 
+    
+
+

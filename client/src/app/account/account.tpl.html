@@ -1,0 +1,20 @@
+<div class="row" id="account">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+<!--         <div class="page-header"><h1>My Account</h1>< -->
+
+          <uib-tabset active="active">
+            <uib-tab index="0">
+              <uib-tab-heading>
+                <i class="glyphicon glyphicon-bell"></i> Settings
+              </uib-tab-heading>
+              <div ui-view="settings"></div>
+            </uib-tab>
+            <uib-tab index="1" heading="Orders">Static content</uib-tab>
+            <uib-tab index="2" heading="Measurements">Static content</uib-tab>
+          </uib-tabset>            
+
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>

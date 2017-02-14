@@ -1,0 +1,75 @@
+
+    <div class="features_items">
+        <!--features_items-->
+        <h2 class="title text-center">{{category.categoryLabel}}</h2>
+
+    <form class="row form-horizontal">
+
+        <div class="col-sm-4"></div>
+
+
+        <div class="form-group col-sm-4" >
+            <label for="sort" class="control-label col-xs-2">Sort</label>
+            <div class="col-xs-10">
+                <select name="sort" id="sort" class="form-control  input-sm" ng-model="querySearch.sort" ng-model-options="{ debounce: 500 }" ng-options="sort.value as sort.label for sort in sorts" ng-change="filtersUpdated()" style="width: 120%;">
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-sm-4 pull-right">
+            <label for="limit" class="control-label col-xs-2">Limit</label>
+            <div class="col-xs-10">
+                <select name="limit" class="form-control  input-sm" ng-model="querySearch.limit" ng-model-options="{ debounce: 500 }" ng-options="limit.value as limit.label for limit in limits" ng-change="filtersUpdated()" style="width: 100%;">
+                    <!--<option value="10">10 items</option>-->
+                    <!--<option value="20" selected="selected">20 items</option>-->
+                    <!--<option value="50">50 items</option>-->
+                    <!--<option value="100">100 items</option>-->
+                </select>
+            </div>
+        </div>
+    </form>
+
+
+        <div>&nbsp;</div>
+
+
+        <div class = "row">
+            <div class="col-sm-4" ng-repeat="product in queryResult.products">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center"> 
+                            <a ui-sref="main.productcategory.product({categoryId:'{{category._id}}', productId:'{{product._id}}'})" ui-sref-active="active">
+                                <img src="img/products/small/{{product.images[0]}}" alt="" />
+                                <h2>{{product.sale_price}}</h2>
+                            
+                                <p>{{product.name}}</p> 
+                            </a>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> </div>
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <h2>{{product.sale_price}}</h2>
+                                <p>{{product.name}}</p> <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a> </div>
+                        </div>
+                    </div>
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                            <li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="well" ng-if="querySearch.pages.total > 1">
+            <div class="btn-group pull-left">
+                <button disabled class="btn btn-default">Page {{querySearch.pages.current}} of {{querySearch.pages.total}}</button>
+                <button disabled class="btn btn-default">Rows {{querySearch.items.begin}} - {{querySearch.items.end}} of {{querySearch.items.total}}</button>
+            </div>
+            <div class="btn-group pull-right">
+                <button class="btn btn-default" ng-class="{disabled: !pages.hasPrev}" ng-click="prev()">Prev</button>
+                <button class="btn btn-default" ng-class="{disabled: !pages.hasNext}" ng-click="next()"> Next</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!--features_items-->

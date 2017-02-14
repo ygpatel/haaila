@@ -1,0 +1,202 @@
+.cp-container {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cp-box {
+    float: left;
+    cursor: pointer;
+    height: 26px;
+    width: 26px;
+    margin: 0 4px 4px 0;
+    border-style:solid;
+    border-color:white;
+    border-width: thin;
+
+
+}
+
+.cp-box:before {
+	content: "";
+	display: block;
+}
+
+
+.cp-selected {
+    outline-style: groove;
+}
+
+.cp-unselected {
+    outline-style: none;
+}
+
+.inner-container {
+  position: relative;
+}
+
+.left-sidebar h2 {
+    margin: 15px auto 10px;
+}
+
+.left-sidebar h2, .brands_products h2 {
+  margin: 15px auto 10px;   
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;   
+
+}
+
+.item-query {
+  border: 1px solid #F7F7F0;
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
+
+
+
+.header-middle .container .row {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.header-bottom {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.carousel-indicators {
+  bottom:-50px;
+}
+
+
+
+/* Bootstrap: Center carousel arrow icons   */
+.carousel-control .glyphicon-arrow-left, 
+.carousel-control .glyphicon-arrow-right {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+}
+
+
+.carousel-control .icon-prev,
+.carousel-control .glyphicon-chevron-left {
+  left: 10%;
+}
+
+.carousel-control .icon-next,
+.carousel-control .glyphicon-chevron-right {
+  right: 10%;
+}
+
+
+.carousel-inner { text-align: center; }
+
+.carousel .item > img { display: inline-block; }
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    cursor: default;
+}
+
+.product-information {
+  border: 2px solid #F7F7F0;
+  overflow: hidden;
+  padding-bottom: 20px;
+  padding-left: 40px;
+  padding-top: 20px;
+  position: relative;
+}
+
+.btn.btn-primary {
+    margin-top: 8px;
+}
+.btn.btn-warning {
+    margin-top: 8px;
+}
+
+.submitted .ng-invalid{
+    border: 1px solid red;
+}
+/*! TODO temporary hack */
+.input-medium {
+    border: 1px solid lightgray; 
+    background-color: white;
+}
+
+.validation-error{
+  display:inline-block;
+  vertical-align:top;
+  color: red;
+  margin-top: 5px;
+}
+
+
+
+
+
+#accordion input {
+	display: none;
+}
+#accordion label {
+	background: #eee;
+	border-radius: .25em;
+	cursor: pointer;
+	display: block;
+	margin-bottom: .125em;
+	padding: .25em 1em;
+	z-index: 20;
+}
+#accordion label:hover {
+	background: #ccc;
+}
+
+#accordion input:checked + label {
+	background: #ccc;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	color: white;
+	margin-bottom: 0;
+}
+#accordion article {
+	background: #f7f7f7;
+	height:0px;
+	overflow:hidden;
+	z-index:10;
+}
+#accordion article p {
+	padding: 1em;
+}
+#accordion input:checked article {
+}
+#accordion input:checked ~ article {
+	border-bottom-left-radius: .25em;
+	border-bottom-right-radius: .25em;
+	height: auto;
+	margin-bottom: .125em;
+}
+
+.rz-pointer { width: 16px;height: 16px;border-radius: 8px; top: -7px }
+.rz-pointer:after { top: 6px;left: 6px;width: 4px;height: 4px; border-radius: 2px }
+
+.hv-center-div {
+       position: absolute;
+       top: 0;
+       left: 0;
+       bottom: 0;
+       right: 0;
+       margin: auto;
+  }
+
+.product h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 auto 10px;
+  text-transform: uppercase;
+  position: relative;
+  z-index:3;
+}
+
+.product h2 .price  {
+  color: #FE980F;
+}
