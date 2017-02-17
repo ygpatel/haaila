@@ -98,7 +98,7 @@ exports = module.exports = function(app, passport) {
   app.get('/api/account/settings/facebook/disconnect', account.disconnectFacebook);
 
   // haaila need
-  app.get('api/account/measurements', account.measurements);
+  app.get('/api/account/settings/measurements', account.getAccountMeasurements);
 
   //-----athorization required api-----
   app.all('/api/admin*', apiEnsureAuthenticated);
