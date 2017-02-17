@@ -569,6 +569,20 @@ var account = {
 
   connectFacebook: function(req, res, next){
     return connectSocial('facebook', req, res, next);
+  },
+
+  getAccountMeasurements: function(req, res, next){
+    console.log("In getAccountMeasurements");
+    req.app.db.models.AccountMeasurement.find( {"account_id" : req.user.roles.account.id}).exec(function(err, accountMeasurements) {
+        if (err) {
+          return callback(err, null);
+        }
+        console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
+        return res.status(200).json(accountMeasurements)
+      });
   }
+
+
+
 };
 module.exports = account;
