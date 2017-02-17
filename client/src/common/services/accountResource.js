@@ -25,7 +25,7 @@ angular.module('services.accountResource', ['security.service']).factory('accoun
   };
 
   resource.getAccountMeasurements = function() {
-    return $http.get(baseUrl + '/account/measurements').then(processResponse, processError);
+    return $http.get(baseUrl + '/account/settings/measurements').then(processResponse, processError);
   };
 
   resource.setIdentity = function(data){
