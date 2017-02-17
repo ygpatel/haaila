@@ -28,10 +28,14 @@
         };
         
         $scope.isActive = function (stitch) {
-          if (stitch === this.service.scEntry.addInfo.stitch) {
-              return true;
+          if (!angular.isUndefined(this.service.scEntry.addInfo)) {
+            if (stitch === this.service.scEntry.addInfo.stitch) {
+                return true;
+            } else {
+                return false;
+            }            
           } else {
-              return false;
+            return false;
           }
         };
                   
@@ -50,7 +54,7 @@
             addInfo.measurements = "";
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
-                ser.scEntry.measConfig = measurements.fields;
+                ser.scEntry.measConfig = measurements.measurements;
                 ser.scEntry.measDataInput = {};
                 for (var i=0; i<measurements.length; i++){
                     ser.scEntry.measDataInput[measurements[i].code] = "";

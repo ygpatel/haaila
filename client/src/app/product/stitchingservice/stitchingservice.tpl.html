@@ -29,7 +29,7 @@
                                                 <div class="col-xs-4">
                                                     <div>{{measurement.label}}</div>
 
-                                                    <select name="{{measurement.code}}" class="input-medium" style="width: 100px;" ng-options="o as o for o in measurement.values" ng-model="service.scEntry.measDataInput[measurement.code]" ng-change="stdMeasurementSelected(service)" required>
+                                                    <select name="{{measurement.code}}" class="input-medium" style="width: 100px;" ng-options="o as o for o in measurement.options" ng-model="service.scEntry.measDataInput[measurement.code]" ng-change="stdMeasurementSelected(service)" required>
                                                         <option value="" ng-selected="selected">Select</option>
                                                     </select>
                                                     <div ng-messages="stitchForm[''+measurement.code].$error" ng-if="stitchForm[''+measurement.code].$dirty && stitchForm[''+measurement.code].$invalid" class="validation-error">
