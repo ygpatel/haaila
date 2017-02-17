@@ -154,8 +154,8 @@ angular.
               controller: 'AccountSettingsCtrl'
             },
             'measurements@main.account' : {
-              templateUrl: 'account/measurements/measurements.tpl.html',
-              controller: 'accountMeasurementsCtrl'
+              templateUrl: 'account/measurements/account-measurements.tpl.html',
+              controller: 'AccountMeasurementsCtrl'
             }
           },
           resolve : {
@@ -179,7 +179,7 @@ angular.
             measurements: ['$q', '$location', '$log', 'securityAuthorization', 'accountResource', function($q, $location, $log, securityAuthorization, accountResource){
               //get app stats only for admin-user, otherwise redirect to /account
               var redirectUrl;
-              var promise = securityAuthorization.requireAdminUser()
+              var promise = securityAuthorization.requireVerifiedUser() 
                 .then(function(){
                   //handles url with query(search) parameter
                   return accountResource.getAccountMeasurements();
