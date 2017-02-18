@@ -573,7 +573,10 @@ var account = {
 
   getAccountMeasurements: function(req, res, next){
     console.log("In getAccountMeasurements");
-    req.app.db.models.AccountMeasurement.find( {"account_id" : req.user.roles.account.id}).exec(function(err, accountMeasurements) {
+    req.app.db.models.AccountMeasurement
+    .find( {"account_id" : req.user.roles.account.id})
+    .populate ('measurement_id')
+    .exec(function(err, accountMeasurements) {
         if (err) {
           return callback(err, null);
         }

@@ -69,11 +69,19 @@ module.exports = function(grunt) {
           {
             expand: true, cwd: 'client/bower_components/elevatezoom/',
             src: ['jquery.elevatezoom.js'], dest: '<%= distdir %>/vendor/'
-          }          
+          },
+          {
+            expand: true, cwd: 'client/bower_components/angular-ui-grid/',
+            src: ['ui-grid.js'], dest: '<%= distdir %>/vendor/'
+          }         
         ]
       },
       asset: {
         files: [
+          {
+            expand: true, cwd: 'client/bower_components/angular-ui-grid/',
+            src: ['ui-grid.css'], dest: '<%= distdir %>/css'
+          }, 
           {
             expand: true, cwd: 'client/src/assets/',
             src: ['favicon.ico'], dest: '<%= distdir %>/'

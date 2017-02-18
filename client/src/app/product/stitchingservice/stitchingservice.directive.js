@@ -54,7 +54,7 @@
             addInfo.measurements = "";
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
-                ser.scEntry.measConfig = measurements.measurements;
+                ser.scEntry.measConfig = measurements.fields;
                 ser.scEntry.measDataInput = {};
                 for (var i=0; i<measurements.length; i++){
                     ser.scEntry.measDataInput[measurements[i].code] = "";
