@@ -24,9 +24,7 @@ angular.module('services.accountResource', ['security.service']).factory('accoun
     return $http.put(baseUrl + '/account/settings', data).then(processResponse, processError);
   };
 
-  resource.getAccountMeasurements = function() {
-    return $http.get(baseUrl + '/account/settings/measurements').then(processResponse, processError);
-  };
+
 
   resource.setIdentity = function(data){
     return $http.put(baseUrl + '/account/settings/identity', data).then(processResponse, processError);
@@ -54,5 +52,16 @@ angular.module('services.accountResource', ['security.service']).factory('accoun
         return data;
       });
   };
+
+  //haaila need
+  resource.getAccountMeasurements = function() {
+    return $http.get(baseUrl + '/account/settings/measurements').then(processResponse, processError);
+  };
+
+  resource.setAccountMeasurements = function(data){
+    return $http.put(baseUrl + '/account/settings/measurements', data).then(processResponse, processError);
+  };
+
+
   return resource;
 }]);

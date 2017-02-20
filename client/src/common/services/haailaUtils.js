@@ -154,7 +154,56 @@ angular.module('services.haailaUtils', ['services.productResource', 'ui.bootstra
 
   };
 
+  haailaUtils.getCustomMeasurement = function(ser,fromProductSelection) {        
+    var modalInstance = $uibModal.open({
+      animation: true,
+      backdrop: 'static',
+      component: 'customsizing',
+        
+      resolve: {
+        measurements: function () {
+          if (fromProductSelection) {
+            return ser.scEntry.measConfig;
+          } else {
+            return ser.measurement_id.fields;
+          }
+          
+        },
+        target : function () {
+          if (fromProductSelection) {
+            return ser.scEntry.measDataInput; 
+          } else {
+            return ser;
+          }
+        }
+      }                            
+    });
+    modalInstance.result.then(function (selectedItem) {
+      return selectedItem;  
+    }, function (cancelSelectedItem) {
+      return cancelSelectedItem;    
+    });
+  };
 
+
+  haailaUtils.getIndexFromArrayOfObject = function(arraytosearch, key, valuetosearch) {
+    for (var i = 0; i < arraytosearch.length; i++) { 
+      if (arraytosearch[i][key] === valuetosearch) {
+        return i;
+      }
+    }
+    return null;
+  };
+
+
+  haailaUtils.isObjectEmpty = function(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop)) {
+            return false;
+        }    
+    }
+    return true;
+  };
 
 
   return haailaUtils;

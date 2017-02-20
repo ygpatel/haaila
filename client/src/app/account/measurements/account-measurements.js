@@ -1,7 +1,7 @@
-angular.module('account.measurements.index', ['security.authorization', 'services.utility', 'services.accountResource', 'ngTouch', 'ui.grid', 'ui.grid.selection']);
+angular.module('account.measurements.index', ['security.authorization', 'services.utility', 'services.accountResource', 'ngTouch', 'ui.grid', 'ui.grid.selection', 'services.haailaUtils']);
 
-angular.module('account.measurements.index').controller('AccountMeasurementsCtrl', ['$scope', '$route', '$location', '$log', 'utility', 'accountResource', 'measurements', '$interval', 'uiGridConstants',
-  function($scope, $route, $location, $log, utility, accountResource, measurements, $interval, uiGridConstants){
+angular.module('account.measurements.index').controller('AccountMeasurementsCtrl', ['$scope', '$route', '$location', '$log', 'utility', 'accountResource', 'measurements', '$interval', 'uiGridConstants', 'haailaUtils',
+  function($scope, $route, $location, $log, utility, accountResource, measurements, $interval, uiGridConstants, haailaUtils){
     // local var
 
 
@@ -13,8 +13,14 @@ angular.module('account.measurements.index').controller('AccountMeasurementsCtrl
       { name: '_id', cellTemplate: 'account/measurements/account-measurement-button.tpl.html'}
     ];
 
+    $scope.getCustomMeasurement = function(ser) {    
+      $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
+    }; 
+
+
     $scope.editMeasurement = function(id) {
-      alert(id);
+      var meas = measurements[haailaUtils.getIndexFromArrayOfObject(measurements,'_id',id)];
+      var measData = haailaUtils.getCustomMeasurement(meas,false);  
     };
     $scope.gridOptions.multiSelect = false;
     $scope.gridOptions.modifierKeysToMultiSelect = false;

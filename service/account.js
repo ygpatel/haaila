@@ -574,7 +574,8 @@ var account = {
   getAccountMeasurements: function(req, res, next){
     console.log("In getAccountMeasurements");
     req.app.db.models.AccountMeasurement
-    .find( {"account_id" : req.user.roles.account.id})
+    .find({"account_id" : req.user.roles.account.id})
+    .select('_id profile_name measurement_id measurements')
     .populate ('measurement_id')
     .exec(function(err, accountMeasurements) {
         if (err) {
@@ -583,8 +584,53 @@ var account = {
         console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
         return res.status(200).json(accountMeasurements)
       });
-  }
+  },
+  updateAccountMeasurements: function(req,res,next) {
+    console.log("AccountMeasurementData ====>" + JSON.stringify(req.body) )
+    var workflow = req.app.utility.workflow(req, res);
 
+    workflow.on('validate', function() {
+      if (!req.body.profile_name) {
+        workflow.outcome.errfor.profile_name = 'required';
+      }
+
+      for (var i in req.body.measurements) {
+        if (isNaN(req.body.measurements[i])) {
+            console.log('Incorrect Account Measurement data'+ i);
+            workflow.outcome.errors.push('Incorrect Measurement Data');
+        }
+      }
+
+      if (workflow.hasErrors()) {
+        return workflow.emit('response');
+      }
+
+      workflow.emit('updateMeasurements');
+    });
+
+    workflow.on('updateMeasurements', function() {
+      var fieldsToSet = {
+        profile_name: req.body.profile_name,
+        measurements: req.body.measurements
+      };
+
+      var options = { select: 'profile_name measurements', upsert:true };
+
+
+      req.app.db.models.AccountMeasurement.findByIdAndUpdate(req.body._id, fieldsToSet, options, function(err, measurements) {
+        if (err) {
+          console.log(err);
+          return workflow.emit('exception', err);
+        }
+        workflow.outcome.measurements = measurements;
+        return workflow.emit('response');
+      });
+
+
+    });
+
+    workflow.emit('validate');    
+  }
 
 
 };

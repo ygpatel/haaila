@@ -78,27 +78,8 @@
 
         };
 
-        $scope.getCustomMeasurement = function(ser) {        
-          var modalInstance = $uibModal.open({
-            animation: true,
-            component: 'customsizing',
-              
-            resolve: {
-              measurements: function () {
-                return ser.scEntry.measConfig;
-              },
-              target : function () {
-                  return ser.scEntry.measDataInput; 
-              }
-            }                            
-          });
-          modalInstance.result.then(function (selectedItem) {
-            $scope.$parent.product.scEntry.addInfo.a = selectedItem;
-             $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);    
-          }, function (cancelSelectedItem) {
-            $scope.$parent.product.scEntry.addInfo.a = cancelSelectedItem;
-              $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);    
-          });
+        $scope.getCustomMeasurement = function(ser) {    
+          $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
         };  
                  
         $scope.stdMeasurementSelected = function(ser){

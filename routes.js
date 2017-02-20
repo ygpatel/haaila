@@ -99,6 +99,7 @@ exports = module.exports = function(app, passport) {
 
   // haaila need
   app.get('/api/account/settings/measurements', account.getAccountMeasurements);
+  app.put('/api/account/settings/measurements', account.updateAccountMeasurements);
 
   //-----athorization required api-----
   app.all('/api/admin*', apiEnsureAuthenticated);

@@ -1,22 +1,62 @@
-    <div>    
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Custom Measurement</h3>
+<div>    
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Custom Measurement</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <alert ng-repeat="alert in $ctrl.alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
+            </div>
+            <div class="col-md-3"></div>
+        </div>    
+        <br/>
+        <div class="row">
+            <div class="col-md-4">
+                <label class="label-mini">Measurement Type:</label>
+            </div>
+            <div class="col-md-6 label-mini">{{$ctrl.target.measurement_id.desc}}
+            </div>
+        </div> 
+        <div class="row">   
+            <div class="col-md-4">
+                <label class="label-mini">Profile Name:</label>
+            </div>
+            <div class="col-md-6">
+                <input class="input-mini" type="text" ng-model="$ctrl.target.profile_name" />
+            </div>            
         </div>
-        <div class="modal-body" id="modal-body">
-
-            <div class="row" >
-                 <div class="col-sm-6" ng-repeat="measurement in $ctrl.measurements">   
-
-                    <label>{{measurement.label}}</label>
-                    <select class="form-control" ng-options="o as o for o in measurement.values" ng-model="$ctrl.target[measurement.code]">
-                        <option value=""  ng-selected="selected">Select</option>
-                    </select> 
-
-                 </div>                        
-              </div>          
+        <div class="row">   
+            <div class="col-md-12">
+                <hr/>
+            </div>
         </div>
-        <div class="modal-footer">
-             <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-             <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="row" ng-repeat="measurement in $ctrl.measurements">
+                    <div class="col-md-8">
+
+                            <label class="label-mini">{{measurement.label}}</label>
+
+                    </div>
+                    <div class="col-md-4">
+
+                            <select class="form-control select-mini" ng-options="o as o for o in measurement.options" ng-model="$ctrl.target.measurements[measurement.code]"  ng-focus="$ctrl.updateImage(measurement.code)">
+                                    <option value=""  ng-selected="selected">Select</option>
+                            </select> 
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <img class="center-block" src = "{{$ctrl.imageSource}}" />
+                
+            </div>        
         </div>
-    </div> 
+    </div>
+    <div class="modal-footer">
+         <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+         <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Close</button>
+    </div>
+</div> 
