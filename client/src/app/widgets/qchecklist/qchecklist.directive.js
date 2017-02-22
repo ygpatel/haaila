@@ -13,18 +13,30 @@
           console.log("From itemQuery link");
         },
         controller : function($scope, $element, $rootScope){
-           $scope.checkListClicked = function(e) {
-                var currQueryConfig = this.$parent.queryconfig;  
-                var valueArray = [];
-               for(var key in currQueryConfig.data){
-                   if (currQueryConfig.data[key].value) {
-                       valueArray.push(currQueryConfig.data[key].label);
-                   }
+          $scope.chkLstClass = "checkbox checklist";
+          $scope.checkListClicked = function(e) {
+            var currQueryConfig = this.$parent.queryconfig;  
+            var valueArray = [];
+            for(var key in currQueryConfig.data){
+               if (currQueryConfig.data[key].value) {
+                   valueArray.push(currQueryConfig.data[key].label);
                }
-               this.$root.queries[this.$root.activeCategoryIndex].query.querySearch.filters[currQueryConfig.code] = valueArray;
-                
-               this.$root.$broadcast('update-query');
-           };
+            }
+            this.$root.queries[this.$root.activeCategoryIndex].query.querySearch.filters[currQueryConfig.code] = valueArray;
+            
+            this.$root.$broadcast('update-query');
+          };
+          $scope.moreorless = 'more';
+          $scope.toggleCheckListClass = function(){
+            if ($scope.chkLstClass === "checkbox checklist") {
+              $scope.chkLstClass = "checkbox checklist expanded";
+              $scope.moreorless = 'less';
+            } else {
+              $scope.chkLstClass = "checkbox checklist";
+              $scope.moreorless = 'more';
+            }
+
+          };
         }
     };
   }]);

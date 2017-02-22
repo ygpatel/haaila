@@ -1,11 +1,16 @@
-
-<div class="checkbox">
+<div class="checklistContainer">
+<div class="{{chkLstClass}}" id="{{queryconfig.label}}" >
     <ul>
         <li ng-repeat="item in queryconfig.data">
             <input type="checkbox" ng-model="queryconfig.data[$index].value" ng-click="checkListClicked()" >{{item.label}}
            
         </li>
-    </ul>    
-</div>
+        
+    </ul>  
 
+</div>
+<div class="moreless center-block" ng-if = "queryconfig.data.length > 10">
+<button type="button" class="btn btn-link" ng-click="toggleCheckListClass()">{{moreorless}}</button> 
+</div>
+</div>
 

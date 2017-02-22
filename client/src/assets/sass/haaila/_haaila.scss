@@ -216,3 +216,30 @@
   font-size: 14px;
   height: 20px;
 }
+
+.indented {
+  padding-left : 50px;
+}
+
+.checklist{
+    overflow: hidden;
+    max-height:192px;
+    position: relative;
+    
+}
+
+.checklistContainer {
+  border:1px solid #999;
+  border-color: #F5F5F5
+}
+
+
+.checklist.expanded{
+  max-height:none;
+}
+
+.moreless {
+  margin-top:-20px;
+  padding:0px;
+  text-align: center;
+}
