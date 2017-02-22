@@ -1,6 +1,6 @@
-angular.module('services.haailaUtils', ['services.productResource', 'ui.bootstrap'])
-.factory('haailaUtils', ['productResource', '$q', '$location', '$log', '$rootScope', '$uibModal',
-  function (productResource, $q, $location, $log, $rootScope, $uibModal) {
+angular.module('services.haailaUtils', ['services.productResource', 'services.accountResource', 'ui.bootstrap', 'security'])
+.factory('haailaUtils', ['productResource', 'accountResource', '$q', '$location', '$log', '$rootScope', '$uibModal', 'securityAuthorization',
+  function (productResource, accountResource, $q, $location, $log, $rootScope, $uibModal, securityAuthorization) {
   var haailaUtils = {};
 /*  haailaUtils.getQueryConfig = function(){
     productResource.getAllQueryInfo().then(function(data){
@@ -98,8 +98,26 @@ angular.module('services.haailaUtils', ['services.productResource', 'ui.bootstra
   };
 
 
-
-
+  haailaUtils.fetchAccountMeasurements = function(measurementId) {
+     //get app stats only for admin-user, otherwise redirect to /account
+    var redirectUrl;
+    var promise = securityAuthorization.requireVerifiedUser() 
+      .then(function(){
+        //handles url with query(search) parameter
+        return accountResource.getAccountMeasurements("");
+      }, function(reason){
+        //rejected either user is un-authorized or un-authenticated
+        redirectUrl = reason === 'unauthorized-client'? '/account': '/login';
+        return $q.reject();
+      })
+      .catch(function(){
+        redirectUrl = redirectUrl || '/account';
+        $location.search({});
+        $location.path(redirectUrl);
+        return $q.reject();
+      });
+    return promise;
+  };
 
 
   haailaUtils.deserializeProductData = function(data) {
@@ -143,38 +161,38 @@ angular.module('services.haailaUtils', ['services.productResource', 'ui.bootstra
     if (data.v_value) {
       label = label.replace ("{{v_value}}", data.v_value);
     }
-    if (data.add_cost > 0) {
-      label = label.replace ("{{add_cost}}", data.add_cost);
+
+    if (data.add_cost) {
+      if (data.add_cost > 0) {
+        label = label.replace ("{{add_cost}}", data.add_cost);
+      } else {
+        //truncate
+        label = label.replace ("(add ${{add_cost}})", "");
+      }
     } else {
-      //truncate
       label = label.replace ("(add ${{add_cost}})", "");
     }
+    if (data.stitch) {
+      label = label.replace ("{{stitch}}", data.stitch);
+    }
+
     console.log("getLabel :" + label);
     return label;
 
   };
 
-  haailaUtils.getCustomMeasurement = function(ser,fromProductSelection) {        
+  haailaUtils.updateCustomMeasurement = function(ser,fromProductSelection, addupdate) {     
+    ser.addupdate = addupdate;   
     var modalInstance = $uibModal.open({
       animation: true,
       backdrop: 'static',
       component: 'customsizing',
-        
       resolve: {
-        measurements: function () {
-          if (fromProductSelection) {
-            return ser.scEntry.measConfig;
-          } else {
-            return ser.measurement_id.fields;
-          }
-          
+        fromProduct: function() {
+          return fromProductSelection;
         },
-        target : function () {
-          if (fromProductSelection) {
-            return ser.scEntry.measDataInput; 
-          } else {
-            return ser;
-          }
+        service: function () {
+          return ser;
         }
       }                            
     });

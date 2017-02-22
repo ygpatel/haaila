@@ -14,10 +14,23 @@
       $ctrl.imageSource = "";
 
       $ctrl.$onInit = function () {
-      $ctrl.measurements = $ctrl.resolve.measurements;
-      $ctrl.target = $ctrl.resolve.target;   
-      $ctrl.cancelTarget =  angular.copy($ctrl.target);   
+        $ctrl.fromProduct = $ctrl.resolve.fromProduct;
+        if ($ctrl.fromProduct) {
+          $ctrl.measurements = $ctrl.resolve.service.scEntry.addInfo.measDataInput.measurement_id.fields;
+          $ctrl.description = $ctrl.resolve.service.scEntry.addInfo.measDataInput.measurement_id.desc;
+          $ctrl.mode = $ctrl.resolve.service.addupdate;
+          $ctrl.target = $ctrl.resolve.service.scEntry.addInfo.measDataInput;  
+        } else {
+          $ctrl.measurements = $ctrl.resolve.service.measurement_id.fields;
+          $ctrl.description = $ctrl.resolve.service.measurement_id.desc;
+          $ctrl.mode = $ctrl.resolve.service.addupdate;
+          $ctrl.target = $ctrl.resolve.service;  
+        }             
 
+        
+        
+        $ctrl.cancelTarget =  angular.copy($ctrl.target);   
+        
       };
 
       $ctrl.errfor = {}; //for identity server-side validation
@@ -29,6 +42,8 @@
 
       $ctrl.ok =  function(){
         $ctrl.alerts.detail = [];
+        $ctrl.target.mode = $ctrl.mode;
+        $ctrl.target.fromProduct = $ctrl.fromProduct;
         accountResource.setAccountMeasurements($ctrl.target).then(function(data){
           if(data.success){
             $ctrl.alerts.detail.push({

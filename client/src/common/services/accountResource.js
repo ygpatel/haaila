@@ -54,8 +54,8 @@ angular.module('services.accountResource', ['security.service']).factory('accoun
   };
 
   //haaila need
-  resource.getAccountMeasurements = function() {
-    return $http.get(baseUrl + '/account/settings/measurements').then(processResponse, processError);
+  resource.getAccountMeasurements = function(measurementId) {
+    return $http.get(baseUrl + '/account/settings/measurements/' + measurementId).then(processResponse, processError);
   };
 
   resource.setAccountMeasurements = function(data){

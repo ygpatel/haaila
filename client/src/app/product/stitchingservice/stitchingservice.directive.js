@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular
-  .module('product.stitchingservice', ['services.haailaUtils',  'ui.bootstrap'])
+  .module('product.stitchingservice', ['services.haailaUtils',  'ui.bootstrap', 'security'])
   .directive('stitchingservice', function(){
     return {
       restrict : 'EA',
@@ -9,8 +9,8 @@
       scope: {
         service: '='
       },
-      controller: ["$scope", "haailaUtils","$uibModal",
-      function SelectboxController($scope, haailaUtils,$uibModal) { 
+      controller: ["$scope", "haailaUtils","$uibModal", "security",
+      function SelectboxController($scope, haailaUtils,$uibModal, security) { 
                 
         $scope.dataSCModel = "";
 
@@ -54,10 +54,10 @@
             addInfo.measurements = "";
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
-                ser.scEntry.measConfig = measurements.fields;
-                ser.scEntry.measDataInput = {};
+                ser.scEntry.addInfo.measConfig = measurements.fields;
+                ser.scEntry.addInfo.measDataInput = {};
                 for (var i=0; i<measurements.length; i++){
-                    ser.scEntry.measDataInput[measurements[i].code] = "";
+                    ser.scEntry.addInfo.measDataInput[measurements[i].code] = "";
                 }
               });
             } else {
@@ -78,9 +78,44 @@
 
         };
 
-        $scope.getCustomMeasurement = function(ser) {    
+
+        $scope.isAuthenticated = security.isAuthenticated();  
+
+/*        $scope.getCustomMeasurement = function(ser) {    
           $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
-        };  
+        }; */ 
+
+        $scope.accountMeasurements = "";
+
+        $scope.customItemSelected = function(ser) {
+          var value = ser.scEntry.addInfo.measConfig;
+          if (value ==="profile") {
+            haailaUtils.fetchAccountMeasurements(ser.scEntry.addInfo.meas_code).then(function(data){
+              $scope.accountMeasurements =  data;
+            });
+          }  
+        };
+
+        $scope.customMeasurement = {};
+
+        $scope.customMeasurementSelected = function(ser) {
+          console.log($scope.customMeasurement);
+        };
+
+        $scope.addUpdateMeasurement = function(ser,addedit) {
+          //var meas = measurements[haailaUtils.getIndexFromArrayOfObject(measurements,'_id',id)];
+          //var meas = ser.scEntry.addInfo.measDataInput;
+          if (addedit === 'ADD') {
+              haailaUtils.getMeasurements(ser.scEntry.addInfo.meas_code).then(function(measConfig) {
+              ser.scEntry.addInfo.measDataInput = {};
+              ser.scEntry.addInfo.measDataInput.measurement_id = measConfig; 
+              var measData = haailaUtils.updateCustomMeasurement(ser,true,addedit); 
+            });
+          } else { 
+            var measData = haailaUtils.updateCustomMeasurement(ser,true,addedit);  
+          }
+        };
+
                  
         $scope.stdMeasurementSelected = function(ser){
           $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);

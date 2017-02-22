@@ -572,9 +572,14 @@ var account = {
   },
 
   getAccountMeasurements: function(req, res, next){
-    console.log("In getAccountMeasurements");
+    var queryObj = {"account_id" : req.user.roles.account.id}
+    if (req.params.measurement_id) {
+      if (req.params.measurement_id.length > 0) {
+        queryObj["measurement_id"] = req.params.measurement_id;
+      }
+    }
     req.app.db.models.AccountMeasurement
-    .find({"account_id" : req.user.roles.account.id})
+    .find(queryObj)
     .select('_id profile_name measurement_id measurements')
     .populate ('measurement_id')
     .exec(function(err, accountMeasurements) {
@@ -609,23 +614,54 @@ var account = {
     });
 
     workflow.on('updateMeasurements', function() {
+
+      var mode = req.body.mode
       var fieldsToSet = {
         profile_name: req.body.profile_name,
         measurements: req.body.measurements
       };
+      if (mode === "ADD") {
+        fieldsToSet.measurement_id = req.body.measurement_id._id
+        fieldsToSet.account_id = req.user.roles.account.id
+      }
 
-      var options = { select: 'profile_name measurements', upsert:true };
+      var options = { select: 'profile_name measurements'};
 
+      if (mode == "ADD") {
+        //create new model
+        console.log ("adding a new measurement profile.");
+        var post = new req.app.db.models.AccountMeasurement(fieldsToSet);
 
-      req.app.db.models.AccountMeasurement.findByIdAndUpdate(req.body._id, fieldsToSet, options, function(err, measurements) {
-        if (err) {
-          console.log(err);
-          return workflow.emit('exception', err);
-        }
-        workflow.outcome.measurements = measurements;
-        return workflow.emit('response');
-      });
+        //save model to MongoDB
+        post.save(function (err, measurements) {
+          if (err) {
+            console.log("Error_code"+err.code);
+            if (err.code && err.code === 11000) {
+              workflow.outcome.errors.push('Measurements for this Profile Name already existing....Please use a different Profile Name');  
+              return workflow.emit('response');
+            } else {
+              return workflow.emit('exception', err);
+            }  
+          }
+          workflow.outcome.measurements = measurements;
+          return workflow.emit('response');
 
+        });
+      } else {
+        req.app.db.models.AccountMeasurement.findByIdAndUpdate(req.body._id, fieldsToSet, options, function(err, measurements) {
+          if (err) {
+            console.log("Error_code"+err.code);
+            if (err.code && err.code === 11000) {
+              workflow.outcome.errors.push('Measurements for this Profile Name already existing....Please use a different Profile Name');  
+              return workflow.emit('response');
+            } else {
+              return workflow.emit('exception', err);
+            }  
+          }
+          workflow.outcome.measurements = measurements;
+          return workflow.emit('response');
+        });
+      }
 
     });
 

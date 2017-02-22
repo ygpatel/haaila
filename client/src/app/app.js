@@ -176,26 +176,10 @@ angular.
                 });
               return promise;
             }],
-            measurements: ['$q', '$location', '$log', 'securityAuthorization', 'accountResource', function($q, $location, $log, securityAuthorization, accountResource){
-              //get app stats only for admin-user, otherwise redirect to /account
-              var redirectUrl;
-              var promise = securityAuthorization.requireVerifiedUser() 
-                .then(function(){
-                  //handles url with query(search) parameter
-                  return accountResource.getAccountMeasurements();
-                }, function(reason){
-                  //rejected either user is un-authorized or un-authenticated
-                  redirectUrl = reason === 'unauthorized-client'? '/account': '/login';
-                  return $q.reject();
-                })
-                .catch(function(){
-                  redirectUrl = redirectUrl || '/account';
-                  $location.search({});
-                  $location.path(redirectUrl);
-                  return $q.reject();
-                });
-              return promise;
-            }]        
+            measurements: ['haailaUtils', function (haailaUtils) {
+              return haailaUtils.fetchAccountMeasurements("");
+            }]
+
           }
         })
 

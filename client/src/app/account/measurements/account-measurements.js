@@ -14,13 +14,13 @@ angular.module('account.measurements.index').controller('AccountMeasurementsCtrl
     ];
 
     $scope.getCustomMeasurement = function(ser) {    
-      $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
+      $scope.$parent.product.scEntry.addInfo.a = haailaUtils.updateCustomMeasurement(ser,true);    
     }; 
 
 
-    $scope.editMeasurement = function(id) {
+    $scope.editMeasurement = function(id, addedit) {
       var meas = measurements[haailaUtils.getIndexFromArrayOfObject(measurements,'_id',id)];
-      var measData = haailaUtils.getCustomMeasurement(meas,false);  
+      var measData = haailaUtils.updateCustomMeasurement(meas,false,addedit);  
     };
     $scope.gridOptions.multiSelect = false;
     $scope.gridOptions.modifierKeysToMultiSelect = false;

@@ -3,6 +3,10 @@
         <h3 class="modal-title" id="modal-title">Custom Measurement</h3>
     </div>
     <div class="modal-body" id="modal-body">
+
+        <form name="customSizingForm"  ng-class="{'submitted': submitted}" ng-submit="$ctrl.ok()" novalidate>
+
+
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -15,7 +19,7 @@
             <div class="col-md-4">
                 <label class="label-mini">Measurement Type:</label>
             </div>
-            <div class="col-md-6 label-mini">{{$ctrl.target.measurement_id.desc}}
+            <div class="col-md-6 label-mini">{{$ctrl.description}}
             </div>
         </div> 
         <div class="row">   
@@ -23,7 +27,12 @@
                 <label class="label-mini">Profile Name:</label>
             </div>
             <div class="col-md-6">
-                <input class="input-mini" type="text" ng-model="$ctrl.target.profile_name" />
+                <div ng-if="$ctrl.resolve.fromProduct && $ctrl.mode === 'EDIT'">
+                    <label class="label-mini">{{$ctrl.target.profile_name}}</label>
+                </div>
+                <div ng-if="!$ctrl.resolve.fromProduct || $ctrl.mode === 'ADD'">
+                    <input class="input-mini" type="text" ng-model="$ctrl.target.profile_name" />
+                </div>      
             </div>            
         </div>
         <div class="row">   
@@ -42,21 +51,39 @@
                     </div>
                     <div class="col-md-4">
 
-                            <select class="form-control select-mini" ng-options="o as o for o in measurement.options" ng-model="$ctrl.target.measurements[measurement.code]"  ng-focus="$ctrl.updateImage(measurement.code)">
+                            <select name="selCustomSize_{{$index}}"  
+                                    class="form-control select-mini" 
+                                    ng-options="o as o for o in measurement.options" 
+                                    ng-model="$ctrl.target.measurements[measurement.code]"  
+                                    ng-focus="$ctrl.updateImage(measurement.code)" 
+                                    required>
                                     <option value=""  ng-selected="selected">Select</option>
                             </select> 
-
+                            
                     </div>
+                  
                 </div>
             </div>
+
+            <div class="col-md-4"></div>
+            <div class="col-md-8 pull-right validation-error" 
+                ng-messages="customSizingForm.$error"
+                ng-if="customSizingForm.$dirty && customSizingForm.$invalid" >
+                    <div ng-message="required">Please select all the sizes</div>
+            </div>  
+
+
             <div class="col-md-7">
                 <img class="center-block" src = "{{$ctrl.imageSource}}" />
                 
             </div>        
         </div>
+    
+
+
     </div>
     <div class="modal-footer">
-         <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+         <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Save</button>
          <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Close</button>
     </div>
 </div> 

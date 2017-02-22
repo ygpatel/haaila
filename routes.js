@@ -98,6 +98,7 @@ exports = module.exports = function(app, passport) {
   app.get('/api/account/settings/facebook/disconnect', account.disconnectFacebook);
 
   // haaila need
+  app.get('/api/account/settings/measurements/:measurement_id', account.getAccountMeasurements);
   app.get('/api/account/settings/measurements', account.getAccountMeasurements);
   app.put('/api/account/settings/measurements', account.updateAccountMeasurements);
 
