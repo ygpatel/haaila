@@ -12,7 +12,7 @@
     controller: ["accountResource", function (accountResource) {
       var $ctrl = this;
       $ctrl.imageSource = "";
-
+      $ctrl.retVal = "";
       $ctrl.$onInit = function () {
         $ctrl.fromProduct = $ctrl.resolve.fromProduct;
         if ($ctrl.fromProduct) {
@@ -40,7 +40,7 @@
 
 
 
-      $ctrl.ok =  function(){
+      $ctrl.save =  function(){
         $ctrl.alerts.detail = [];
         $ctrl.target.mode = $ctrl.mode;
         $ctrl.target.fromProduct = $ctrl.fromProduct;
@@ -50,6 +50,7 @@
               type: 'success',
               msg: 'Measurements have been updated.'
             });
+            $ctrl.retVal = data.measurements._id;
           }else{
             angular.forEach(data.errors, function(err, index){
               $ctrl.alerts.detail.push({
@@ -68,8 +69,8 @@
         //$ctrl.close({$value: $ctrl.target});
       };
 
-      $ctrl.cancel = function () {
-        $ctrl.dismiss({$value: $ctrl.cancelTarget});
+      $ctrl.closeModal = function () {
+        $ctrl.close({$value: $ctrl.retVal});
       };
 
       $ctrl.updateImage = function(code) {

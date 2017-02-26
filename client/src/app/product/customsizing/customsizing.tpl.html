@@ -4,53 +4,51 @@
     </div>
     <div class="modal-body" id="modal-body">
 
-        <form name="customSizingForm"  ng-class="{'submitted': submitted}" ng-submit="$ctrl.ok()" novalidate>
+        <form name="customSizingForm"  ng-class="{'submitted': submitted}" ng-submit="$ctrl.save(customSizingForm.$valid)" novalidate>
 
-
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <alert ng-repeat="alert in $ctrl.alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
-            </div>
-            <div class="col-md-3"></div>
-        </div>    
-        <br/>
-        <div class="row">
-            <div class="col-md-4">
-                <label class="label-mini">Measurement Type:</label>
-            </div>
-            <div class="col-md-6 label-mini">{{$ctrl.description}}
-            </div>
-        </div> 
-        <div class="row">   
-            <div class="col-md-4">
-                <label class="label-mini">Profile Name:</label>
-            </div>
-            <div class="col-md-6">
-                <div ng-if="$ctrl.resolve.fromProduct && $ctrl.mode === 'EDIT'">
-                    <label class="label-mini">{{$ctrl.target.profile_name}}</label>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <alert ng-repeat="alert in $ctrl.alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
                 </div>
-                <div ng-if="!$ctrl.resolve.fromProduct || $ctrl.mode === 'ADD'">
-                    <input class="input-mini" type="text" ng-model="$ctrl.target.profile_name" />
-                </div>      
-            </div>            
-        </div>
-        <div class="row">   
-            <div class="col-md-12">
-                <hr/>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="col-md-5">
-                <div class="row" ng-repeat="measurement in $ctrl.measurements">
-                    <div class="col-md-8">
-
-                            <label class="label-mini">{{measurement.label}}</label>
-
+                <div class="col-md-3"></div>
+            </div>    
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="label-mini">Measurement Type:</label>
+                </div>
+                <div class="col-md-6 label-mini">{{$ctrl.description}}
+                </div>
+            </div> 
+            <div class="row">   
+                <div class="col-md-4">
+                    <label class="label-mini">Profile Name:</label>
+                </div>
+                <div class="col-md-6">
+                    <div ng-if="$ctrl.resolve.fromProduct && $ctrl.mode === 'EDIT'">
+                        <label class="label-mini">{{$ctrl.target.profile_name}}</label>
                     </div>
-                    <div class="col-md-4">
+                    <div ng-if="!$ctrl.resolve.fromProduct || $ctrl.mode === 'ADD'">
+                        <input class="input-mini" type="text" ng-model="$ctrl.target.profile_name" />
+                    </div>      
+                </div>            
+            </div>
+            <div class="row">   
+                <div class="col-md-12">
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
 
+                <div class="col-md-5">
+                    <div class="row" ng-repeat="measurement in $ctrl.measurements">
+                        <div class="col-md-8">
+
+                                <label class="label-mini">{{measurement.label}}</label>
+
+                        </div>
+                        <div class="col-md-4">
                             <select name="selCustomSize_{{$index}}"  
                                     class="form-control select-mini" 
                                     ng-options="o as o for o in measurement.options" 
@@ -58,32 +56,30 @@
                                     ng-focus="$ctrl.updateImage(measurement.code)" 
                                     required>
                                     <option value=""  ng-selected="selected">Select</option>
-                            </select> 
-                            
+                            </select>                                 
+                        </div>
+                       
                     </div>
-                  
                 </div>
+                <div class="col-md-7">
+                    <img class="center-block" src = "{{$ctrl.imageSource}}" />     
+                </div>        
             </div>
-
-            <div class="col-md-4"></div>
-            <div class="col-md-8 pull-right validation-error" 
-                ng-messages="customSizingForm.$error"
-                ng-if="customSizingForm.$dirty && customSizingForm.$invalid" >
-                    <div ng-message="required">Please select all the sizes</div>
-            </div>  
-
-
-            <div class="col-md-7">
-                <img class="center-block" src = "{{$ctrl.imageSource}}" />
-                
-            </div>        
-        </div>
-    
-
-
+            <div class="row">
+                <div class="col-md-12 center-block validation-error" 
+                    ng-messages="customSizingForm.$error"
+                    ng-if="customSizingForm.$dirty && customSizingForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                </div>
+            </div>             
+            <div class="row">
+                <div class="modal-footer" col-md-12>
+                    <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Save</button>
+                    <button ng-if="" class="btn btn-warning" type="button" ng-click="$ctrl.closeModal()">Select this measurements</button>
+                    <button class="btn btn-warning" type="button" ng-click="$ctrl.closeModal()">Close</button>
+                </div>   
+            </div> 
+        </form>    
     </div>
-    <div class="modal-footer">
-         <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Save</button>
-         <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Close</button>
-    </div>
+
 </div> 

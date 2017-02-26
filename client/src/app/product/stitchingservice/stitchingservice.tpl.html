@@ -54,13 +54,14 @@
                                 </ng-form>
                                 <div ng-switch="service.scEntry.addInfo.measConfig" >
                                     <div ng-switch-when="profile">
-                                        <div ng-if="!isAuthenticated"><a href="/login"><i class="fa fa-user"></i>Sign In</a> to pick your profile</div>
-                                        <div ng-if="isAuthenticated">
+                                        <div ng-if="!isUserLoggedIn"><a href="/login"><i class="fa fa-user"></i>Sign In</a> to pick your profile</div>
+                                        <div ng-if="isUserLoggedIn">
                                             <span>
                                                  <select name="accountMeasurementsProfile" 
                                                         style="width: 220px;" 
                                                         ng-options="itemoption as itemoption.profile_name for itemoption in accountMeasurements" 
                                                         ng-model="service.scEntry.addInfo.measDataInput" 
+                                                        ng-change="customMeasurementSelected(service)"  
                                                         required>
                                                         <option value="" ng-selected="selected">Select a profile</option>
                                                 </select>
@@ -70,8 +71,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
 
 
 <!-- 

@@ -175,6 +175,13 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     if (data.stitch) {
       label = label.replace ("{{stitch}}", data.stitch);
     }
+    if (data.profile_name !== undefined) {
+      if (data.profile_name !== "") {
+        label = label.replace ("{{profile_name}}", "for "+data.profile_name);
+      } else {
+        label = label.replace ("{{profile_name}}", "");
+      }
+    }
 
     console.log("getLabel :" + label);
     return label;
@@ -196,11 +203,12 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
         }
       }                            
     });
-    modalInstance.result.then(function (selectedItem) {
-      return selectedItem;  
-    }, function (cancelSelectedItem) {
-      return cancelSelectedItem;    
-    });
+    return modalInstance.result;
+    // modalInstance.result.then(function (selectedItem) {
+    //   return selectedItem;  
+    // }, function (cancelSelectedItem) {
+    //   return cancelSelectedItem;    
+    // });
   };
 
 

@@ -79,7 +79,7 @@
         };
 
 
-        $scope.isAuthenticated = security.isAuthenticated();  
+        $scope.isUserLoggedIn = (security.currentUser !==null, true,false);  
 
 /*        $scope.getCustomMeasurement = function(ser) {    
           $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
@@ -99,23 +99,51 @@
         $scope.customMeasurement = {};
 
         $scope.customMeasurementSelected = function(ser) {
+          //update scEntry description with profile name
+          ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.addInfo.measDataInput);
           console.log($scope.customMeasurement);
         };
 
         $scope.addUpdateMeasurement = function(ser,addedit) {
           //var meas = measurements[haailaUtils.getIndexFromArrayOfObject(measurements,'_id',id)];
           //var meas = ser.scEntry.addInfo.measDataInput;
+          var measData = "";
           if (addedit === 'ADD') {
-              haailaUtils.getMeasurements(ser.scEntry.addInfo.meas_code).then(function(measConfig) {
+            haailaUtils.getMeasurements(ser.scEntry.addInfo.meas_code).then(function(measConfig) {
               ser.scEntry.addInfo.measDataInput = {};
               ser.scEntry.addInfo.measDataInput.measurement_id = measConfig; 
-              var measData = haailaUtils.updateCustomMeasurement(ser,true,addedit); 
+              haailaUtils.updateCustomMeasurement(ser,true,addedit)
+              .then(function(selectedItem) { 
+                $scope.refreshCustomMeasurements(selectedItem,ser);
+              });
             });
-          } else { 
-            var measData = haailaUtils.updateCustomMeasurement(ser,true,addedit);  
+          } else {
+              haailaUtils.updateCustomMeasurement(ser,true,addedit)
+              .then(function(selectedItem) { 
+                $scope.refreshCustomMeasurements(selectedItem,ser);
+              });
           }
-        };
 
+
+        }; 
+
+
+        $scope.refreshCustomMeasurements = function(selectedItem,ser) {
+          if (selectedItem !== "") {
+            ser.scEntry.addInfo.measConfig = 'profile';
+            //the below will update the $scope.accountMeasurements with freshly fetched profile measurements that will have the updated/added profile
+            haailaUtils.fetchAccountMeasurements(ser.scEntry.addInfo.meas_code).then(function(data){
+              $scope.accountMeasurements =  data;
+              for (var i=0; i<$scope.accountMeasurements.length; i++) {
+                if ($scope.accountMeasurements[i]._id === selectedItem) {
+                  ser.scEntry.addInfo.measDataInput = $scope.accountMeasurements[i];
+                  break;
+                }
+              }
+            });
+
+          }          
+        }; 
                  
         $scope.stdMeasurementSelected = function(ser){
           $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);
