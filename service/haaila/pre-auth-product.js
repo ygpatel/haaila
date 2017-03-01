@@ -70,33 +70,6 @@ var product = {
             callback();
         })
       },
-      // function(callback) {
-      //   console.log("returnItem.variation----> "+ JSON.stringify(returnItem.variation));
-      //   if (returnItem.variations) {
-      //     if (returnItem.variation._id && returnItem.variation._id.length > 0) {
-      //       req.app.db.models.Variation.findOne({"_id" : returnItem.variation._id}).lean().exec(function(err,variation) {
-      //         if(err) throw err;
-      //         //todo cache the meta info
-
-      //         if (returnItem.variation.data_override && returnItem.variation.data) {
-      //             variation.data = returnItem.variation.data;
-      //             variation.scEntry = {};
-      //         } 
-      //         console.log("222222 " + JSON.stringify(variation));
-      //         returnItem.variation = variation
-      //         callback();                                                              
-      //       })
-      //     }
-      //     else {
-      //         console.log("33333333");
-      //         callback();
-      //     }
-            
-      //   } else {
-      //       console.log("4444444");
-      //       callback();
-      //   }
-      // },
 
       function(callback) {
         console.log("returnItem.services====================>" + JSON.stringify(returnItem.variations));
@@ -111,6 +84,7 @@ var product = {
                   if(err) throw err;
                   //todo cache the meta info
                   variation.scEntry = {};
+                  variation.scEntry.model = {};  
                   aVariations.push(variation); 
                   insidecallback();
               })
@@ -147,6 +121,7 @@ var product = {
                   if(err) throw err;
                   //todo cache the meta info
                   service.scEntry = {};
+                  service.scEntry.model = {};                  
                   aServices.push(service); 
                   insidecallback();
               })

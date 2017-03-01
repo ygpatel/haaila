@@ -7,29 +7,39 @@
         <div class="row">
             <div class="col-sm-10"><h4>{{service.label}}</h4></div>
 
-            <div class="col-sm-2  text-right">{{(service.scEntry.addInfo.add_cost > 0 ) ?  
-                (service.scEntry.addInfo.add_cost | currency) : ''}}</div>    
+            <div class="col-sm-2  text-right">{{(service.scEntry.stitchInfo.add_cost > 0 ) ?  
+                (service.scEntry.stitchInfo.add_cost | currency) : ''}}</div>    
         </div>    
         <div class="row">
             <div class="col-sm-10">
-                <div ng-repeat="dataitem in service.data">
-                    <input type="radio" name="serviceradio" id="{{dataitem.stitch}}" ng-value="dataitem" ng-model="service.scEntry.addInfo" ng-change="itemSelected(service,dataitem)"/>
-                    <label for="option-{{$index}}">{{dataitem.label}}</label>
-                    <div class="animate-switch-container" ng-show="isActive('{{dataitem.stitch}}')" >
-                        <div   ng-switch="service.scEntry.addInfo.stitch" >
+                <div ng-repeat="stitchInfo in service.data">
+                    <input 
+                        type="radio" 
+                        name="serviceradio" 
+                        id="{{stitchInfo.stitch}}" 
+                        ng-value="stitchInfo.stitch" 
+                        ng-model="service.scEntry.model.stitch" 
+                        ng-change="itemSelected(stitchInfo, service)"  
+                        />
 
-                          <div ng-switch-when="Standard Stitch">
+                    <label for="option-{{$index}}">{{stitchInfo.label}}</label>
+                    <div class="animate-switch-container" ng-show="isActive(stitchInfo.stitch, service)" >
+                        <div   ng-switch="service.scEntry.model.stitch" >
+                            <div ng-switch-when="STANDARD">
                                 <div class="row">
-                                    <ng-form name="stitchForm">
-                                        
-                                        <fieldset class="form-group">
-                                            
+                                    <ng-form name="stitchForm">                                        
+                                        <fieldset class="form-group">                                          
                                             <div ng-repeat="measurement in service.scEntry.addInfo.measConfig" >
                                                 <div class="clearfix" ng-if="$index % 3 == 0"></div>    
                                                 <div class="col-xs-4">
                                                     <div>{{measurement.label}}</div>
-
-                                                    <select name="{{measurement.code}}" class="input-medium" style="width: 100px;" ng-options="o as o for o in measurement.options" ng-model="service.scEntry.addInfo.measDataInput[measurement.code]" ng-change="stdMeasurementSelected(service)" required>
+                                                    <select 
+                                                        name="{{measurement.code}}" 
+                                                        class="input-medium" 
+                                                        style="width: 100px;" 
+                                                        ng-options="o as o for o in measurement.options" ng-model="service.scEntry.addInfo.measDataInput[measurement.code]" 
+                                                        ng-change="stdMeasurementSelected(service)" 
+                                                        required>
                                                         <option value="" ng-selected="selected">Select</option>
                                                     </select>
                                                     <div ng-messages="stitchForm[''+measurement.code].$error" ng-if="stitchForm[''+measurement.code].$dirty && stitchForm[''+measurement.code].$invalid" class="validation-error">
@@ -40,24 +50,24 @@
                                         </fieldset>
                                     </ng-form>
                                 </div>
-                          </div>
-                          <div ng-switch-when="Custom Stitch" class="indented">
+                            </div>
+                            <div ng-switch-when="CUSTOM" class="indented">
                                 <ng-form name="customStitchForm">
                                     <label>
-                                        <input type="radio" ng-model="service.scEntry.addInfo.measConfig" value="email" ng-change='customItemSelected(service)'>
+                                        <input type="radio" ng-model="service.scEntry.model.customOption" value="email" ng-change='customItemSelected(service)'>
                                         Send me request for measurement by email after checkout
                                     </label><br/>
                                     <label>
-                                        <input type="radio" ng-model="service.scEntry.addInfo.measConfig" value="profile" ng-change='customItemSelected(service)'> 
+                                        <input type="radio" ng-model="service.scEntry.model.customOption" value="profile" ng-change='customItemSelected(service)'> 
                                         Select measurement from my stored profile
                                     </label><br/>
                                 </ng-form>
-                                <div ng-switch="service.scEntry.addInfo.measConfig" >
+                                <div ng-switch="service.scEntry.model.customOption" >
                                     <div ng-switch-when="profile">
-                                        <div ng-if="!isUserLoggedIn"><a href="/login"><i class="fa fa-user"></i>Sign In</a> to pick your profile</div>
-                                        <div ng-if="isUserLoggedIn">
+                                        <div ng-if="!isAuthenticated()"><i class="fa fa-user"></i><button type="button" class="btn btn-link" ng-click="login(service)">Sign In</button> to provide custom measurement. to pick your profile</div>
+                                        <div ng-if="isAuthenticated()">
                                             <span>
-                                                 <select name="accountMeasurementsProfile" 
+                                                <select name="accountMeasurementsProfile" 
                                                         style="width: 220px;" 
                                                         ng-options="itemoption as itemoption.profile_name for itemoption in accountMeasurements" 
                                                         ng-model="service.scEntry.addInfo.measDataInput" 
@@ -71,10 +81,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
 <!-- 
-                             <button type="button" class="btn btn-link" ng-click="getCustomMeasurement(service)">Click here</button> to provide custom measurement. </div> -->
+                             <button type="button" class="btn btn-link" ng-click="openLoginDialog">Sign In</button> to provide custom measurement. </div> -->
                           </div>
                         </div>  
                     </div>    
