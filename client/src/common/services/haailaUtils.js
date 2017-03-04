@@ -104,7 +104,7 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     var promise = securityAuthorization.requireVerifiedUser() 
       .then(function(){
         //handles url with query(search) parameter
-        return accountResource.getAccountMeasurements("");
+        return accountResource.getAccountMeasurements(measurementId);
       }, function(reason){
         //rejected either user is un-authorized or un-authenticated
         redirectUrl = reason === 'unauthorized-client'? '/account': '/login';
@@ -210,6 +210,21 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     //   return cancelSelectedItem;    
     // });
   };
+
+  haailaUtils.getShoppingCart = function(product) {     
+    var modalInstance = $uibModal.open({
+      animation: true,
+      component: 'shoppingcart',
+      resolve: {
+        cart: function() {
+          return product;
+        }
+      }                            
+    });
+    return modalInstance.result;
+  };
+
+
 
 
   haailaUtils.getIndexFromArrayOfObject = function(arraytosearch, key, valuetosearch) {

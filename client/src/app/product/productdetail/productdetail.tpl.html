@@ -36,8 +36,8 @@
 									<span>US ${{itemprice(product.sale_price, product.scEntry.addCost)}}</span>
                                 </span>	 -->
                                 
-                                <form name="itemForm"  ng-class="{'submitted': submitted}" ng-submit="addToCart(itemForm.$valid)" novalidate>
-
+ <!--                                <form name="itemForm"  ng-class="{'submitted': submitted}" ng-submit="addToCart(itemForm.$valid)" novalidate> -->
+                               <form name="itemForm"  ng-class="{'submitted': submitted}"  novalidate>
                                     <customization item='item'></customization>    
                                  <div class="col-sm-12"><hr/></div>    
 								<div class = "row">
@@ -49,9 +49,9 @@
 	                                                Add to cart
 	                                            </button>-->
 	                                            
-	                                            <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Add to Cart</button>
+<!-- 	                                            <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Add to Cart</button> -->
 	                                            
-	                                            
+		                                            <button type="button" class="btn btn btn-primary" ng-click="addToCart(itemForm.$valid)">Add to Cart</button>                                            
 	                                            
 	                                        </span>
 									

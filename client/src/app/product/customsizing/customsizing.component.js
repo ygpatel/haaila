@@ -16,10 +16,10 @@
       $ctrl.$onInit = function () {
         $ctrl.fromProduct = $ctrl.resolve.fromProduct;
         if ($ctrl.fromProduct) {
-          $ctrl.measurements = $ctrl.resolve.service.scEntry.addInfo.measDataInput.measurement_id.fields;
-          $ctrl.description = $ctrl.resolve.service.scEntry.addInfo.measDataInput.measurement_id.desc;
+          $ctrl.measurements = $ctrl.resolve.service.scEntry.measConfig.fields;
+          $ctrl.description = $ctrl.resolve.service.scEntry.measConfig.desc;
           $ctrl.mode = $ctrl.resolve.service.addupdate;
-          $ctrl.target = $ctrl.resolve.service.scEntry.addInfo.measDataInput;  
+          $ctrl.target = $ctrl.resolve.service.scEntry.model.data;  
         } else {
           $ctrl.measurements = $ctrl.resolve.service.measurement_id.fields;
           $ctrl.description = $ctrl.resolve.service.measurement_id.desc;

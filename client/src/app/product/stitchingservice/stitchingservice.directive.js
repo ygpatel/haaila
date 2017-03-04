@@ -8,13 +8,14 @@
       restrict : 'EA',
       templateUrl:'product/stitchingservice/stitchingservice.tpl.html',
       scope: {
-        service: '='
+        service: '=',
+        index: '='
       },
       controller: ["$scope", "haailaUtils","$uibModal", "security", "$location", "$rootScope",
       function SelectboxController($scope, haailaUtils,$uibModal, security, $location, $rootScope) { 
         $scope.isAuthenticated = security.isAuthenticated;
-        $scope.preSelectStitch = "Unstitch";
-        $scope.accountMeasurements = "";
+        $scope.measConfigs = {};
+        $scope.measConfigModel = {};
         $scope.customMeasurement = {};
 
         $scope.updateCostAndDesc = function(ser) {
@@ -34,13 +35,13 @@
           if (measurementId !== null && measurementId !== "" &&  !angular.isUndefined(measurementId)){
             var oSearch = {};
             oSearch.measurementId = measurementId;
-            addInfo.measurements = "";
+            //addInfo.measurements = "";
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
-                ser.scEntry.addInfo.measConfig = measurements.fields;
-                ser.scEntry.addInfo.measDataInput = {};
+                $scope.measConfigs = measurements;
+                ser.scEntry.model.data = {};
                 for (var i=0; i<measurements.fields.length; i++){
-                    ser.scEntry.addInfo.measDataInput[measurements.fields[i].code] = "";
+                    ser.scEntry.model.data[measurements.fields[i].code] = "";
                 }
                 $scope.updateCostAndDesc(ser);
               });
@@ -50,16 +51,7 @@
           }
         };
 
-        $scope.customItemSelected = function(ser) {
-          var value = ser.scEntry.model.customOption;
-           if (value ==="profile") {
-            if ($scope.isAuthenticated()) {
-              haailaUtils.fetchAccountMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(data){
-                $scope.accountMeasurements =  data;
-              });               
-            } 
-           }  
-        };
+
 
 
         $scope.getLabel = function(template,data) {
@@ -94,24 +86,24 @@
           return sOption;
         };
 
+        $scope.customItemSelected = function(ser) {
+          var value = ser.scEntry.model.customOption;
+           if (value ==="profile") {
+            if ($scope.isAuthenticated()) {
+              haailaUtils.fetchAccountMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(data){
+                $scope.measConfigs =  data;
+              });               
+            } 
+           }  
+        };
 
-
-
-
-        // $scope.isAuthenticated = function(){ 
-        //   return security.isAuthenticated();
-        // };
-
-
-/*        $scope.getCustomMeasurement = function(ser) {    
-          $scope.$parent.product.scEntry.addInfo.a = haailaUtils.getCustomMeasurement(ser,true);    
-        }; */ 
-
-
-
-        $scope.customMeasurementSelected = function(ser) {
+        $scope.customMeasurementSelected = function(ser,amModel) {
           //update scEntry description with profile name
-          ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.addInfo.measDataInput);
+          ser.scEntry.model.data = {};
+          ser.scEntry.model.data.measurements = amModel.measurements;
+          ser.scEntry.model.data.profile_name = amModel.profile_name;
+          ser.scEntry.model.data.accountMeasurementId = amModel._id;
+          ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.model.data);
           console.log($scope.customMeasurement);
         };
 
@@ -121,8 +113,8 @@
           var measData = "";
           if (addedit === 'ADD') {
             haailaUtils.getMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(measConfig) {
-              ser.scEntry.addInfo.measDataInput = {};
-              ser.scEntry.addInfo.measDataInput.measurement_id = measConfig; 
+              ser.scEntry.measConfig = {};
+              ser.scEntry.measConfig = measConfig; 
               haailaUtils.updateCustomMeasurement(ser,true,addedit)
               .then(function(selectedItem) { 
                 $scope.refreshCustomMeasurements(selectedItem,ser);
@@ -142,12 +134,12 @@
         $scope.refreshCustomMeasurements = function(selectedItem,ser) {
           if (selectedItem !== "") {
             ser.scEntry.customOption = 'profile';
-            //the below will update the $scope.accountMeasurements with freshly fetched profile measurements that will have the updated/added profile
+            //the below will update the $scope.measConfigs with freshly fetched profile measurements that will have the updated/added profile
             haailaUtils.fetchAccountMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(data){
-              $scope.accountMeasurements =  data;
-              for (var i=0; i<$scope.accountMeasurements.length; i++) {
-                if ($scope.accountMeasurements[i]._id === selectedItem) {
-                  ser.scEntry.addInfo.measDataInput = $scope.accountMeasurements[i];
+              $scope.measConfigs =  data;
+              for (var i=0; i<$scope.measConfigs.length; i++) {
+                if ($scope.measConfigs[i]._id === selectedItem) {
+                  ser.scEntry.addInfo.measDataInput = $scope.measConfigs[i];
                   break;
                 }
               }
@@ -174,26 +166,16 @@
         };
 
         $scope.login = function(ser) {
-          //cache the addInfo object in $rootScope
-          $rootScope.productState = {};
-          $rootScope.productState.scEntry = angular.copy(ser.scEntry);
-          $rootScope.productState.location = $location.url;
-          $location.url('/login');
+          this.$root.$broadcast('CacheProductAndLogin');   
         };
 
-        if($rootScope.productState) {
-          if($location.url === $rootScope.productState.location) {
-            $scope.service.scEntry = angular.copy($rootScope.productState.scEntry);
-            $scope.itemSelected($scope.service.scEntry.stitchInfo, $scope.service);
+        //check if this is a round trip from login in which case update the 
+        //product (and hence variations and services) from cached value
+        if($rootScope.productFromCache) {
             $scope.customItemSelected($scope.service);            
-            $rootScope.productState = undefined;
-            // if ($scope.isAuthenticated()) {
-            //  haailaUtils.fetchAccountMeasurements($scope.service.scEntry.meas_code).then(function(data){
-            //    $scope.accountMeasurements =  data;
-            //  });               
-            // }
-          }
+
         }
+
 
       }]
     };   

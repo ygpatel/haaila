@@ -582,6 +582,7 @@ var account = {
     .find(queryObj)
     .select('_id profile_name measurement_id measurements')
     .populate ('measurement_id')
+    .lean()
     .exec(function(err, accountMeasurements) {
         if (err) {
           return callback(err, null);

@@ -1,18 +1,4 @@
 
-<!-- Insert all varitions -->
-<!-- <div ng-if="hasVariation">
-    <div ng-if="product.variation.component._id == 'standard-sizing'">
-        <standardsizing></standardsizing>
-    </div> -->
-
-    <!--<div ng-if="meta.metaconfig.component.type == 'sizing-custom'">
-        <sizing-custom></sizing-custom>
-    </div>    
-
-    <div ng-if="meta.metaconfig.component.type == 'generic-item'">
-        <generic-item></generic-item>
-    </div>-->
-<!-- </div> -->
 <div ng-if="hasVariations">
     <div ng-repeat="variation in product.variations">
         <div ng-if="variation.component._id == 'standard-sizing'">
@@ -29,7 +15,7 @@
 <div ng-if="hasServices">
     <div ng-repeat="service in product.services">
         <div ng-if="service.component._id == 'stitching-service'">
-            <stitchingservice service='service'></stitchingservice>
+            <stitchingservice service='service' index='$index'></stitchingservice>
         </div>
     </div>  
 </div>

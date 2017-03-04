@@ -31,6 +31,10 @@
         $scope.category = $rootScope.queries[$rootScope.activeCategoryIndex];
         $scope.querySearch = $scope.category.query.querySearch;
         $scope.queryResult = $scope.category.query.queryResult;
+        //if user gets to the product list page product should not be loaded using the cache. 
+        //This is a scenario when user had to login to load profile.
+        $rootScope.productFromCache = undefined;
+        $rootScope.productFromCacheUrl = undefined;
 
         var fetchProducts = function(){
           haailaUtils.getProducts().then(function(result){

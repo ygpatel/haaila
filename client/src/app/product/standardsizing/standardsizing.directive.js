@@ -11,6 +11,7 @@
       },      
       controller: ["$scope", "haailaUtils",
         function standardSizingController($scope, haailaUtils) {
+          $scope.getHelp = haailaUtils.getHelp;
 
           $scope.getLabel = function(template,data) {
             return haailaUtils.getLabel(template,data);
@@ -18,8 +19,8 @@
 
 
           $scope.itemSelected = function(variation){
-            variation.scEntry.desc = haailaUtils.getLabel(variation.scEntryDesc, variation.scEntry.addInfo);
-            variation.scEntry.cost = variation.scEntry.addInfo.add_cost;
+            variation.scEntry.desc = haailaUtils.getLabel(variation.scEntryDesc, variation.scEntry.model.data);
+            variation.scEntry.cost = variation.scEntry.model.data.add_cost;
             this.$root.$broadcast('UpdateTotal');
           };
        } 

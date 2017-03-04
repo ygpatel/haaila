@@ -10,8 +10,22 @@
         product : "="
       },
       templateUrl:'product/productdetail/productdetail.tpl.html',
-      controller: function($stateParams,$scope,$rootScope, haailaUtils) {
+      controller: ["$stateParams", "$scope","$rootScope", "haailaUtils", "$location", "$uibModal",
+      function($stateParams, $scope, $rootScope, haailaUtils, $location, $uibModal) {
         var self = this;  
+        $rootScope.productFromCache = false;
+
+        //check if you need to update the product with the cachedProduct (in case there was a detour to sign-in)
+        if ($rootScope.cachedProduct !== undefined) {
+          if ($rootScope.cachedProductUrl === $location.url) {
+            $scope.product = angular.copy($rootScope.cachedProduct);
+            $rootScope.cachedProduct = undefined;
+            $rootScope.cachedProductUrl = undefined;
+            $rootScope.productFromCache = true;
+          } 
+        } 
+
+
         $scope.currImageIndex = 0;
 
         $scope.hasVariations = haailaUtils.hasItemVariations($scope.product);
@@ -23,7 +37,6 @@
         $scope.variations = $scope.product.variations;
         $scope.services = $scope.product.services;
         $scope.isAddButtonEnabled = false;
-        //$scope.addButtonTooltip = $scope.product.variation.component.addCartMessage;
         $scope.measurements = {};
 
 
@@ -48,11 +61,25 @@
 
            $scope.product.scEntry.totalProductCost = totalProductCost;
            
-        });     
+        });  
 
+        $scope.$on('CacheProductAndLogin', function() {
+          $rootScope.cachedProduct = angular.copy($scope.product);
+          $rootScope.cachedProductUrl = $location.url;
+          $location.url('/login');          
+        });
+
+
+
+        $scope.cacheProduct = function() {
+          console.log("in cacheProduct");
+        };
         
-        $scope.addToCart = function(isFormValid){
-
+        $scope.addToCart = function(isFormValid){        
+            haailaUtils.getShoppingCart($scope.product)
+            .then(function(selectedItem) { 
+              console.log(selectedItem);
+            });
         };
         
         
@@ -66,7 +93,7 @@
         
         //$scope.getItem($stateParams.itemId); 
 
-        } 
+        }] 
 
     };
 

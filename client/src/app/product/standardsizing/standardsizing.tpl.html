@@ -12,18 +12,18 @@
                     class="form-control" 
                     style="width: 220px;" 
                     ng-options="itemoption as getLabel(variation.component.optionlabel,itemoption) for itemoption in variation.data" 
-                    ng-model="variation.scEntry.addInfo" 
+                    ng-model="variation.scEntry.model.data" 
                     ng-change="itemSelected(variation)" 
                     required>
                 <option value="" ng-selected="selected">{{variation.component.noSelectionText}}</option>
             </select>   
             <button type="button" 
             class="btn btn-link" 
-            ng-click="utility.getHelp(variation._id)">({{variation.help_link_text}})</button>            
+            ng-click="getHelp(variation._id)">({{variation.help_link_text}})</button>            
         </div>
         <div class="col-sm-2  text-right"></div>
-        <div class="col-sm-2  text-right">{{(variation.scEntry.addInfo.add_cost > 0 ) ?  
-            (variation.scEntry.addInfo.add_cost | currency) : ''}}</div>
+        <div class="col-sm-2  text-right">{{(variation.scEntry.model.data.add_cost > 0 ) ?  
+            (variation.scEntry.model.data.add_cost | currency) : ''}}</div>
     </div>    
     
 
