@@ -14,8 +14,8 @@
       controller: ["$scope", "haailaUtils","$uibModal", "security", "$location", "$rootScope",
       function SelectboxController($scope, haailaUtils,$uibModal, security, $location, $rootScope) { 
         $scope.isAuthenticated = security.isAuthenticated;
-        $scope.measConfigs = {};
-        $scope.measConfigModel = {};
+        $scope.service.measConfigs = {};
+        $scope.service.measConfigModel = {};
         $scope.customMeasurement = {};
 
         $scope.updateCostAndDesc = function(ser) {
@@ -35,11 +35,11 @@
 
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
-                $scope.measConfigs = measurements;
-                ser.scEntry.model.data = {};
-                for (var i=0; i<measurements.fields.length; i++){
-                    ser.scEntry.model.data[measurements.fields[i].code] = "";
-                }
+                ser.measConfigs = measurements;
+                // ser.scEntry.model.data = {};
+                // for (var i=0; i<measurements.fields.length; i++){
+                //     ser.scEntry.model.data[measurements.fields[i].code] = "";
+                // }
                 $scope.updateCostAndDesc(ser);
               });
             } 
@@ -88,20 +88,20 @@
            if (value ==="profile") {
             if ($scope.isAuthenticated()) {
               haailaUtils.fetchAccountMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(data){
-                $scope.measConfigs =  data;
+                ser.measConfigs =  data;
               });               
             } 
            }  
         };
 
 
-        $scope.customMeasurementSelected = function(ser,measConfigModel) {
+        $scope.customMeasurementSelected = function(ser) {
           //update scEntry description with profile name
-          if (measConfigModel !== undefined) {
+          if (ser.measConfigModel !== undefined) {
             ser.scEntry.model.data = {};
-            ser.scEntry.model.data.measurements = measConfigModel.measurements;
-            ser.scEntry.model.data.profile_name = measConfigModel.profile_name;
-            ser.scEntry.model.data.accountMeasurementId = measConfigModel._id;
+            ser.scEntry.model.data.measurements = ser.measConfigModel.measurements;
+            ser.scEntry.model.data.profile_name = ser.measConfigModel.profile_name;
+            ser.scEntry.model.data.accountMeasurementId = ser.measConfigModel._id;
             ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.model.data);
           }
         };
@@ -109,27 +109,27 @@
 
 
 
-        $scope.addUpdateMeasurement = function(measConfigModel,ser,addedit) {
+        $scope.addUpdateMeasurement = function(ser,addedit) {
           var measData = "";
           if (addedit === 'ADD') {
             haailaUtils.getMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(measConfig) {
               //ser.scEntry.measConfig = {};
               //ser.scEntry.measConfig = measConfig; 
-              measConfigModel={};
-              measConfigModel.measurement_id = measConfig;
+              ser.measConfigModel={};
+              ser.measConfigModel.measurement_id = measConfig;
               
               ser.scEntry.model.data.profile_name = "";
               ser.scEntry.model.data.measurements = {};
-              haailaUtils.updateCustomMeasurement(measConfigModel,ser.scEntry.model.data,true,addedit)
+              haailaUtils.updateCustomMeasurement(ser.measConfigModel,ser.scEntry.model.data,true,addedit)
               .then(function(selectedItem) { 
-                $scope.refreshCustomMeasurements(measConfigModel,selectedItem,ser);
+                $scope.refreshCustomMeasurements(selectedItem,ser);
 
               });
             });
           } else {
-              haailaUtils.updateCustomMeasurement(measConfigModel,ser.scEntry.model.data,true,addedit)
+              haailaUtils.updateCustomMeasurement(ser.measConfigModel,ser.scEntry.model.data,true,addedit)
               .then(function(selectedItem) { 
-                $scope.refreshCustomMeasurements(measConfigModel,selectedItem,ser);
+                $scope.refreshCustomMeasurements(selectedItem,ser);
         
               });
           }
@@ -138,15 +138,15 @@
         }; 
 
 
-        $scope.refreshCustomMeasurements = function(measConfigModel,selectedItem,ser) {
+        $scope.refreshCustomMeasurements = function(selectedItem,ser) {
           if (selectedItem !== "") {
-            ser.scEntry.customOption = 'profile';
+            ser.scEntry.model.customOption = 'profile';
             //the below will update the $scope.measConfigs with freshly fetched profile measurements that will have the updated/added profile
             haailaUtils.fetchAccountMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(data){
-              $scope.measConfigs =  data;
-              for (var i=0; i<$scope.measConfigs.length; i++) {
-                if ($scope.measConfigs[i]._id === selectedItem) {
-                  measConfigModel = $scope.measConfigs[i];
+              ser.measConfigs =  data;
+              for (var i=0; i< ser.measConfigs.length; i++) {
+                if (ser.measConfigs[i]._id === selectedItem) {
+                  ser.measConfigModel = ser.measConfigs[i];
                   //$scope.measConfigModel.measurements = $scope.measConfigs[i].measurements;
                   //$scope.measConfigModel.profile_name = $scope.measConfigs[i].profile_name;
                   //$scope.measConfigModel._id = $scope.measConfigs[i]._id;
@@ -154,7 +154,7 @@
                   break;
                 }
               }
-              $scope.customMeasurementSelected(ser,measConfigModel);
+              $scope.customMeasurementSelected(ser);
 
             });
 
@@ -185,11 +185,9 @@
         //check if this is a round trip from login in which case update the 
         //product (and hence variations and services) from cached value
         if($rootScope.productFromCache) {
-            $scope.customItemSelected($scope.service);            
-
+            $scope.customItemSelected($scope.service);   
+            $scope.itemSelected($scope.service.scEntry.stitchInfo,$scope.service);
         }
-
-
       }]
     };   
   }]);

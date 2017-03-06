@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <ng-form name="stitchForm">                                        
                                         <fieldset class="form-group">                                          
-                                            <div ng-repeat="measurement in measConfigs.fields" >
+                                            <div ng-repeat="measurement in service.measConfigs.fields" >
                                                 <div class="clearfix" ng-if="$index % 3 == 0"></div>    
                                                 <div class="col-xs-4">
                                                     <div>{{measurement.label}}</div>
@@ -35,7 +35,8 @@
                                                         name="{{measurement.code}}" 
                                                         class="input-medium" 
                                                         style="width: 100px;" 
-                                                        ng-options="o as o for o in measurement.options" ng-model="service.scEntry.model.data[measurement.code]" 
+                                                        ng-options="o as o for o in measurement.options" 
+                                                        ng-model="service.scEntry.model.data[measurement.code]" 
                                                         required>
                                                         <option value="" ng-selected="selected">Select</option>
                                                     </select>
@@ -65,16 +66,15 @@
                                         <div ng-if="isAuthenticated()">
                                             <span>
                                                 <select style="width: 220px;" 
-                                                        ng-options="itemoption as itemoption.profile_name for itemoption in measConfigs track by itemoption._id"  
-                                                        ng-model="measConfigModel" 
-                                                 
-
-                                                      required>
+                                                        ng-options="itemoption as itemoption.profile_name for itemoption in service.measConfigs track by itemoption._id"  
+                                                        ng-model="service.measConfigModel" 
+                                                        ng-change="customMeasurementSelected(service)"
+                                                        required>
                                                         <option value="">Select a profile</option>  
                                                 </select>
-                                                <button type="button" class="btn btn-sm" ng-click="addUpdateMeasurement(measConfigModel, service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
+                                                <button type="button" class="btn btn-sm" ng-click="addUpdateMeasurement(service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
                                             </span>
-                                            &nbsp; <button type="button" class="btn btn-link" ng-click="addUpdateMeasurement(measConfigModel, service, 'ADD')"  >Add New Profile</button>
+                                            &nbsp; <button type="button" class="btn btn-link" ng-click="addUpdateMeasurement(service, 'ADD')"  >Add New Profile</button>
                                         </div>
                                     </div>
                                 </div>
