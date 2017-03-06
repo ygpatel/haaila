@@ -188,18 +188,20 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
 
   };
 
-  haailaUtils.updateCustomMeasurement = function(ser,fromProductSelection, addupdate) {     
-    ser.addupdate = addupdate;   
+  haailaUtils.updateCustomMeasurement = function(config,model,fromProduct, addedit) {     
+
     var modalInstance = $uibModal.open({
       animation: true,
       backdrop: 'static',
       component: 'customsizing',
       resolve: {
-        fromProduct: function() {
-          return fromProductSelection;
-        },
-        service: function () {
-          return ser;
+        measConfig: function() {
+          var resObj = {};
+          resObj.config = config;
+          resObj.model = model;
+          resObj.fromProduct = fromProduct;
+          resObj.addedit = addedit;  
+          return resObj;
         }
       }                            
     });

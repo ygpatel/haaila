@@ -55,15 +55,6 @@ var product = {
             if (err) throw err;
             returnItem = product;
             returnItem.scEntry = {
-              "priceInCart": 0.00,
-              "addCost": 0.00,
-              "qty": 1,
-              "addInfo": {},
-              "isAddedToCart" : false,
-              "scSerial" : -1,
-              "scText": "",
-              "measurement": "",
-              "a":{}, 
               "totalProductCost" : product.sale_price
             };
             returnItem.scEntry.product_id = product._id;

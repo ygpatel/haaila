@@ -25,17 +25,14 @@
         };
 
         $scope.itemSelected = function(stitchInfo, ser){
-          if (angular.isUndefined(ser.scEntry.addInfo)) {
-            ser.scEntry.addInfo = {};
-          }
-          var addInfo = ser.scEntry.addInfo;
+
           //store the stitchInfo for a sign in return
           ser.scEntry.stitchInfo = stitchInfo;
           var measurementId = stitchInfo.meas_code;
           if (measurementId !== null && measurementId !== "" &&  !angular.isUndefined(measurementId)){
             var oSearch = {};
             oSearch.measurementId = measurementId;
-            //addInfo.measurements = "";
+
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
                 $scope.measConfigs = measurements;
@@ -97,33 +94,43 @@
            }  
         };
 
-        $scope.customMeasurementSelected = function(ser,amModel) {
+
+        $scope.customMeasurementSelected = function(ser,measConfigModel) {
           //update scEntry description with profile name
-          ser.scEntry.model.data = {};
-          ser.scEntry.model.data.measurements = amModel.measurements;
-          ser.scEntry.model.data.profile_name = amModel.profile_name;
-          ser.scEntry.model.data.accountMeasurementId = amModel._id;
-          ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.model.data);
-          console.log($scope.customMeasurement);
+          if (measConfigModel !== undefined) {
+            ser.scEntry.model.data = {};
+            ser.scEntry.model.data.measurements = measConfigModel.measurements;
+            ser.scEntry.model.data.profile_name = measConfigModel.profile_name;
+            ser.scEntry.model.data.accountMeasurementId = measConfigModel._id;
+            ser.scEntry.desc = haailaUtils.getLabel(ser.scEntry.desc, ser.scEntry.model.data);
+          }
         };
 
-        $scope.addUpdateMeasurement = function(ser,addedit) {
-          //var meas = measurements[haailaUtils.getIndexFromArrayOfObject(measurements,'_id',id)];
-          //var meas = ser.scEntry.addInfo.measDataInput;
+
+
+
+        $scope.addUpdateMeasurement = function(measConfigModel,ser,addedit) {
           var measData = "";
           if (addedit === 'ADD') {
             haailaUtils.getMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(measConfig) {
-              ser.scEntry.measConfig = {};
-              ser.scEntry.measConfig = measConfig; 
-              haailaUtils.updateCustomMeasurement(ser,true,addedit)
+              //ser.scEntry.measConfig = {};
+              //ser.scEntry.measConfig = measConfig; 
+              measConfigModel={};
+              measConfigModel.measurement_id = measConfig;
+              
+              ser.scEntry.model.data.profile_name = "";
+              ser.scEntry.model.data.measurements = {};
+              haailaUtils.updateCustomMeasurement(measConfigModel,ser.scEntry.model.data,true,addedit)
               .then(function(selectedItem) { 
-                $scope.refreshCustomMeasurements(selectedItem,ser);
+                $scope.refreshCustomMeasurements(measConfigModel,selectedItem,ser);
+
               });
             });
           } else {
-              haailaUtils.updateCustomMeasurement(ser,true,addedit)
+              haailaUtils.updateCustomMeasurement(measConfigModel,ser.scEntry.model.data,true,addedit)
               .then(function(selectedItem) { 
-                $scope.refreshCustomMeasurements(selectedItem,ser);
+                $scope.refreshCustomMeasurements(measConfigModel,selectedItem,ser);
+        
               });
           }
 
@@ -131,7 +138,7 @@
         }; 
 
 
-        $scope.refreshCustomMeasurements = function(selectedItem,ser) {
+        $scope.refreshCustomMeasurements = function(measConfigModel,selectedItem,ser) {
           if (selectedItem !== "") {
             ser.scEntry.customOption = 'profile';
             //the below will update the $scope.measConfigs with freshly fetched profile measurements that will have the updated/added profile
@@ -139,18 +146,24 @@
               $scope.measConfigs =  data;
               for (var i=0; i<$scope.measConfigs.length; i++) {
                 if ($scope.measConfigs[i]._id === selectedItem) {
-                  ser.scEntry.addInfo.measDataInput = $scope.measConfigs[i];
+                  measConfigModel = $scope.measConfigs[i];
+                  //$scope.measConfigModel.measurements = $scope.measConfigs[i].measurements;
+                  //$scope.measConfigModel.profile_name = $scope.measConfigs[i].profile_name;
+                  //$scope.measConfigModel._id = $scope.measConfigs[i]._id;
+                  
                   break;
                 }
               }
+              $scope.customMeasurementSelected(ser,measConfigModel);
+
             });
 
           }          
         }; 
                  
-        $scope.stdMeasurementSelected = function(ser){
-          $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);
-        };   
+        // $scope.stdMeasurementSelected = function(ser){
+        //   $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);
+        // };   
                   
         $scope.isReadyToAdd = function(measurementValue){
           var measurementConfig = $scope.$parent.measurements;

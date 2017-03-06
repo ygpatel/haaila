@@ -36,7 +36,6 @@
                                                         class="input-medium" 
                                                         style="width: 100px;" 
                                                         ng-options="o as o for o in measurement.options" ng-model="service.scEntry.model.data[measurement.code]" 
-                                                        ng-change="stdMeasurementSelected(service)" 
                                                         required>
                                                         <option value="" ng-selected="selected">Select</option>
                                                     </select>
@@ -66,15 +65,16 @@
                                         <div ng-if="isAuthenticated()">
                                             <span>
                                                 <select style="width: 220px;" 
-                                                        ng-options="itemoption as itemoption.profile_name for itemoption in measConfigs"  
+                                                        ng-options="itemoption as itemoption.profile_name for itemoption in measConfigs track by itemoption._id"  
                                                         ng-model="measConfigModel" 
-                                                        ng-change="customMeasurementSelected(service, measConfigModel)"  
-                                                        required>
-                                                        <option value="" ng-selected="selected">Select a profile</option>
+                                                 
+
+                                                      required>
+                                                        <option value="">Select a profile</option>  
                                                 </select>
-                                                <button type="button" class="btn btn-sm" ng-click="addUpdateMeasurement(service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
+                                                <button type="button" class="btn btn-sm" ng-click="addUpdateMeasurement(measConfigModel, service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
                                             </span>
-                                            &nbsp; <button type="button" class="btn btn-link" ng-click="addUpdateMeasurement(service, 'ADD')"  >Add New Profile</button>
+                                            &nbsp; <button type="button" class="btn btn-link" ng-click="addUpdateMeasurement(measConfigModel, service, 'ADD')"  >Add New Profile</button>
                                         </div>
                                     </div>
                                 </div>

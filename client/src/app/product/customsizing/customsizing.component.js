@@ -14,22 +14,18 @@
       $ctrl.imageSource = "";
       $ctrl.retVal = "";
       $ctrl.$onInit = function () {
-        $ctrl.fromProduct = $ctrl.resolve.fromProduct;
-        if ($ctrl.fromProduct) {
-          $ctrl.measurements = $ctrl.resolve.service.scEntry.measConfig.fields;
-          $ctrl.description = $ctrl.resolve.service.scEntry.measConfig.desc;
-          $ctrl.mode = $ctrl.resolve.service.addupdate;
-          $ctrl.target = $ctrl.resolve.service.scEntry.model.data;  
-        } else {
-          $ctrl.measurements = $ctrl.resolve.service.measurement_id.fields;
-          $ctrl.description = $ctrl.resolve.service.measurement_id.desc;
-          $ctrl.mode = $ctrl.resolve.service.addupdate;
-          $ctrl.target = $ctrl.resolve.service;  
-        }             
+        
+      
+        $ctrl.measurementFields = $ctrl.resolve.measConfig.config.measurement_id.fields;
+        $ctrl.description = $ctrl.resolve.measConfig.config.measurement_id.desc;
+        $ctrl.fromProduct = $ctrl.resolve.measConfig.fromProduct;
 
+        $ctrl.model = $ctrl.resolve.measConfig.model;
+        $ctrl.model.mode = $ctrl.resolve.measConfig.addedit;
         
-        
-        $ctrl.cancelTarget =  angular.copy($ctrl.target);   
+        $ctrl.measurements = $ctrl.model.measurements;        
+        $ctrl.profile_name = $ctrl.model.profile_name;
+
         
       };
 
@@ -42,9 +38,12 @@
 
       $ctrl.save =  function(){
         $ctrl.alerts.detail = [];
-        $ctrl.target.mode = $ctrl.mode;
-        $ctrl.target.fromProduct = $ctrl.fromProduct;
-        accountResource.setAccountMeasurements($ctrl.target).then(function(data){
+        
+        $ctrl.model.measurement_id = $ctrl.resolve.measConfig.config.measurement_id._id;
+        $ctrl.model.fromProduct = $ctrl.resolve.measConfig.fromProduct;
+
+
+        accountResource.setAccountMeasurements($ctrl.model).then(function(data){
           if(data.success){
             $ctrl.alerts.detail.push({
               type: 'success',

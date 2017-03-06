@@ -622,7 +622,7 @@ var account = {
         measurements: req.body.measurements
       };
       if (mode === "ADD") {
-        fieldsToSet.measurement_id = req.body.measurement_id._id
+        fieldsToSet.measurement_id = req.body.measurement_id
         fieldsToSet.account_id = req.user.roles.account.id
       }
 
@@ -649,7 +649,7 @@ var account = {
 
         });
       } else {
-        req.app.db.models.AccountMeasurement.findByIdAndUpdate(req.body._id, fieldsToSet, options, function(err, measurements) {
+        req.app.db.models.AccountMeasurement.findByIdAndUpdate(req.body.accountMeasurementId, fieldsToSet, options, function(err, measurements) {
           if (err) {
             console.log("Error_code"+err.code);
             if (err.code && err.code === 11000) {
