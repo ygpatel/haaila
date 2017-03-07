@@ -75,11 +75,13 @@
           console.log("in cacheProduct");
         };
         
-        $scope.addToCart = function(isFormValid){        
+        $scope.addToCart = function(isFormValid){  
+          if (isFormValid) {      
             haailaUtils.getShoppingCart($scope.product)
             .then(function(selectedItem) { 
               console.log(selectedItem);
             });
+          }  
         };
         
         

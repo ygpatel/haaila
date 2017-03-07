@@ -24,7 +24,7 @@
           this.$root.$broadcast('UpdateTotal');           
         };
 
-        $scope.itemSelected = function(stitchInfo, ser){
+        $scope.itemSelected = function(stitchInfo, ser, isCalledFromTemplate){
 
           //store the stitchInfo for a sign in return
           ser.scEntry.stitchInfo = stitchInfo;
@@ -32,6 +32,11 @@
           if (measurementId !== null && measurementId !== "" &&  !angular.isUndefined(measurementId)){
             var oSearch = {};
             oSearch.measurementId = measurementId;
+
+            if (($scope.service.scEntry.model.customOption === undefined || isCalledFromTemplate) && stitchInfo.stitch === "CUSTOM") { 
+              $scope.service.scEntry.model.customOption = "email";
+            }  
+
 
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
@@ -186,7 +191,9 @@
         //product (and hence variations and services) from cached value
         if($rootScope.productFromCache) {
             $scope.customItemSelected($scope.service);   
-            $scope.itemSelected($scope.service.scEntry.stitchInfo,$scope.service);
+            $scope.itemSelected($scope.service.scEntry.stitchInfo,$scope.service, false);
+        } else {
+          $scope.service.scEntry.model.stitch = $scope.service.data[0].stitch;
         }
       }]
     };   
