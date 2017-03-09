@@ -33,6 +33,11 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     return $rootScope.activeCategoryIndex;
   };
 
+  haailaUtils.getActiveCategory = function() {
+    return $rootScope.queries[$rootScope.activeCategoryIndex]._id;
+  };
+
+
   haailaUtils.getProducts = function() {
 
     var filters = $rootScope.queries[$rootScope.activeCategoryIndex].query.querySearch;
@@ -157,31 +162,47 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
 
   haailaUtils.getLabel = function(template,data){
     var label = template;
+    if (data) {
+      if (data.v_value) {
+        label = label.replace ("{{v_value}}", data.v_value);
+      }
 
-    if (data.v_value) {
-      label = label.replace ("{{v_value}}", data.v_value);
-    }
-
-    if (data.add_cost) {
-      if (data.add_cost > 0) {
-        label = label.replace ("{{add_cost}}", data.add_cost);
+      if (data.add_cost) {
+        if (data.add_cost > 0) {
+          label = label.replace ("{{add_cost}}", data.add_cost);
+        } else {
+          //truncate
+          label = label.replace ("(add ${{add_cost}})", "");
+        }
       } else {
-        //truncate
         label = label.replace ("(add ${{add_cost}})", "");
       }
-    } else {
-      label = label.replace ("(add ${{add_cost}})", "");
-    }
-    if (data.stitch) {
-      label = label.replace ("{{stitch}}", data.stitch);
-    }
-    if (data.profile_name !== undefined) {
-      if (data.profile_name !== "") {
-        label = label.replace ("{{profile_name}}", "for "+data.profile_name);
+      if (data.stitch !== undefined) {
+        if (data.stitch !== "") {
+          label = label.replace ("{{stitch}}", data.stitch);
+        } else {
+          label = label.replace ("{{stitch}}", "");
+        }
+      } else {
+        label = label.replace ("{{stitch}}", "");
+      }  
+
+      if (data.profile_name !== undefined) {
+        if (data.profile_name !== "") {
+          label = label.replace ("{{profile_name}}", "for "+data.profile_name);
+        } else {
+          label = label.replace ("{{profile_name}}", "");
+        }
       } else {
         label = label.replace ("{{profile_name}}", "");
       }
-    }
+
+    } else {
+      label = label.replace ("{{v_value}}", "");
+      label = label.replace ("{{stitch}}", "");
+      label = label.replace ("(add ${{add_cost}})", "");
+      label = label.replace ("{{profile_name}}", "");
+    }  
 
     console.log("getLabel :" + label);
     return label;
@@ -213,13 +234,13 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     // });
   };
 
-  haailaUtils.getShoppingCart = function(product) {     
+  haailaUtils.getShoppingCart = function(cart) {     
     var modalInstance = $uibModal.open({
       animation: true,
       component: 'shoppingcart',
       resolve: {
         cart: function() {
-          return product;
+          return cart;
         }
       }                            
     });

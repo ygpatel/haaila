@@ -13,19 +13,28 @@
       },
       controller: ["$scope", "haailaUtils","$uibModal", "security", "$location", "$rootScope",
       function SelectboxController($scope, haailaUtils,$uibModal, security, $location, $rootScope) { 
+
         $scope.isAuthenticated = security.isAuthenticated;
         $scope.service.measConfigs = {};
         $scope.service.measConfigModel = {};
         $scope.customMeasurement = {};
 
         $scope.updateCostAndDesc = function(ser) {
-          ser.scEntry.desc = haailaUtils.getLabel(ser.scEntryDesc, ser.scEntry.stitchInfo);
-          ser.scEntry.cost = ser.scEntry.stitchInfo.add_cost;
-          this.$root.$broadcast('UpdateTotal');           
+          if (ser.scEntry) {
+            if (ser.scEntry.stitchInfo) {
+              ser.scEntry.desc = haailaUtils.getLabel(ser.scEntryDesc, ser.scEntry.stitchInfo);
+            }
+            
+            if (ser.scEntry.stitchInfo) {  
+              if (ser.scEntry.stitchInfo.add_cost) {
+                ser.scEntry.cost = ser.scEntry.stitchInfo.add_cost;
+                this.$root.$broadcast('UpdateTotal');  
+              }
+            }  
+          }            
         };
 
         $scope.itemSelected = function(stitchInfo, ser, isCalledFromTemplate){
-
           //store the stitchInfo for a sign in return
           ser.scEntry.stitchInfo = stitchInfo;
           var measurementId = stitchInfo.meas_code;
@@ -36,8 +45,6 @@
             if (($scope.service.scEntry.model.customOption === undefined || isCalledFromTemplate) && stitchInfo.stitch === "CUSTOM") { 
               $scope.service.scEntry.model.customOption = "email";
             }  
-
-
             if (oSearch.measurementId.length > 0) {
               haailaUtils.getMeasurements(oSearch.measurementId).then (function(measurements){
                 ser.measConfigs = measurements;
@@ -53,14 +60,10 @@
           }
         };
 
-
-
-
         $scope.getLabel = function(template,data) {
           return haailaUtils.getLabel(template,data);
         }; 
-
-                
+          
         $scope.getStitchStyle = function(stitch) {
           if (stitch === this.service.model) {
               return '{display:block}';
@@ -111,15 +114,10 @@
           }
         };
 
-
-
-
         $scope.addUpdateMeasurement = function(ser,addedit) {
           var measData = "";
           if (addedit === 'ADD') {
             haailaUtils.getMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(measConfig) {
-              //ser.scEntry.measConfig = {};
-              //ser.scEntry.measConfig = measConfig; 
               ser.measConfigModel={};
               ser.measConfigModel.measurement_id = measConfig;
               
@@ -135,13 +133,9 @@
               haailaUtils.updateCustomMeasurement(ser.measConfigModel,ser.scEntry.model.data,true,addedit)
               .then(function(selectedItem) { 
                 $scope.refreshCustomMeasurements(selectedItem,ser);
-        
               });
           }
-
-
         }; 
-
 
         $scope.refreshCustomMeasurements = function(selectedItem,ser) {
           if (selectedItem !== "") {
@@ -151,11 +145,7 @@
               ser.measConfigs =  data;
               for (var i=0; i< ser.measConfigs.length; i++) {
                 if (ser.measConfigs[i]._id === selectedItem) {
-                  ser.measConfigModel = ser.measConfigs[i];
-                  //$scope.measConfigModel.measurements = $scope.measConfigs[i].measurements;
-                  //$scope.measConfigModel.profile_name = $scope.measConfigs[i].profile_name;
-                  //$scope.measConfigModel._id = $scope.measConfigs[i]._id;
-                  
+                  ser.measConfigModel = ser.measConfigs[i];                  
                   break;
                 }
               }
@@ -165,11 +155,7 @@
 
           }          
         }; 
-                 
-        // $scope.stdMeasurementSelected = function(ser){
-        //   $scope.$parent.isAddButtonEnabled = $scope.isReadyToAdd($scope.$parent.product.scEntry.addInfo.a);
-        // };   
-                  
+                   
         $scope.isReadyToAdd = function(measurementValue){
           var measurementConfig = $scope.$parent.measurements;
           for (var i=0; i<measurementConfig.length; i++){
@@ -194,7 +180,10 @@
             $scope.itemSelected($scope.service.scEntry.stitchInfo,$scope.service, false);
         } else {
           $scope.service.scEntry.model.stitch = $scope.service.data[0].stitch;
+          $scope.service.scEntry.stitchInfo = $scope.service.data[0];
+          $scope.itemSelected($scope.service.scEntry.stitchInfo,$scope.service, false);
         }
+
       }]
     };   
   }]);

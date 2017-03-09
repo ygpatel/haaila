@@ -113,6 +113,24 @@ angular.
           }
         })
 
+        .state('main.shoppingcart', {
+          url: '/shoppingcart',
+          views: {
+            '@': { 
+              template: "<shoppingcart cart='cart'></shoppingcart>",
+              controller: function($scope, cart){
+                $scope.cart = cart;
+              }                     
+            }
+          }, 
+          resolve: {
+            cart: ['$rootScope', function ($rootScope) {
+              return $rootScope.shoppingCart;
+            }]
+          }
+        })
+
+
         .state('main.login', {
           url: '/login',
           views: {

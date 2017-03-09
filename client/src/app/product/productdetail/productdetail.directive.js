@@ -14,6 +14,7 @@
       function($stateParams, $scope, $rootScope, haailaUtils, $location, $uibModal) {
         var self = this;  
         $rootScope.productFromCache = false;
+        $scope.shoppingCart = undefined;
 
         //check if you need to update the product with the cachedProduct (in case there was a detour to sign-in)
         if ($rootScope.cachedProduct !== undefined) {
@@ -76,14 +77,49 @@
         };
         
         $scope.addToCart = function(isFormValid){  
-          if (isFormValid) {      
-            haailaUtils.getShoppingCart($scope.product)
-            .then(function(selectedItem) { 
-              console.log(selectedItem);
-            });
+          if (isFormValid) {
+            var shoppingCartEntry = {};
+            var i;
+            shoppingCartEntry.productId = $scope.product._id;
+            shoppingCartEntry.name = $scope.product.name;
+            shoppingCartEntry.totalProductCost = $scope.product.scEntry.totalProductCost;
+            shoppingCartEntry.thumb =  "img/products/thumb/"+$scope.product.images[0];
+            shoppingCartEntry.shipping_cost =  $scope.product.shipping_cost;
+            shoppingCartEntry.max_orderable_qty = parseInt($scope.product.max_orderable_qty);
+            shoppingCartEntry.qty = 1;
+            if($scope.product.variations) {
+              if ($scope.product.variations.length > 0) {
+                shoppingCartEntry.variations = [];
+                for (i=0;i<$scope.product.variations.length;i++) {
+                  shoppingCartEntry.variations.push({}); 
+                  shoppingCartEntry.variations[i] =  angular.copy($scope.product.variations[i].scEntry);              
+                }  
+              }
+            }  
+            if ($scope.product.services) {
+              if ($scope.product.services.length > 0) {
+                shoppingCartEntry.services = [];
+                for (i=0;i<$scope.product.services.length;i++) {
+                  shoppingCartEntry.services.push({});   
+                  shoppingCartEntry.services[i] =  angular.copy($scope.product.services[i].scEntry);                
+                }  
+              }
+            }  
+   
+            //replacd this by serverside shopping cart
+            if ($rootScope.shoppingCart === undefined){
+              $rootScope.shoppingCart = []; 
+            }
+            $rootScope.shoppingCart.push(shoppingCartEntry);
+            //haailaUtils.getShoppingCart($scope.product)
+            $location.url('/shoppingcart'); 
           }  
         };
         
+
+
+
+
         
         $scope.itemprice = function(price,addCost){
             return price + (addCost > 0 ? addCost : 0);
