@@ -247,7 +247,14 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     return modalInstance.result;
   };
 
-
+  haailaUtils.getShoppingCartCount = function() {
+    if ($rootScope.shoppingCart ) {
+      return $rootScope.shoppingCart.length; 
+    } else {
+      return 0;
+    }
+    
+  };
 
 
   haailaUtils.getIndexFromArrayOfObject = function(arraytosearch, key, valuetosearch) {

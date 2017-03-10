@@ -1,6 +1,6 @@
 angular.module('base',['ngRoute', 'security', 'services.utility', 'services.accountResource', 'services.adminResource', 'ui.bootstrap', 'services.haailaUtils']);
-angular.module('base').controller('HeaderCtrl', ['$scope', '$location', 'security',
-  function ($scope, $location, security) {
+angular.module('base').controller('HeaderCtrl', ['$scope', '$location', 'security','haailaUtils',
+  function ($scope, $location, security,haailaUtils) {
     $scope.isAuthenticated = function(){
       return security.isAuthenticated();
     };
@@ -16,6 +16,9 @@ angular.module('base').controller('HeaderCtrl', ['$scope', '$location', 'securit
     };
     $scope.isActive = function(viewLocation){
       return $location.path() === viewLocation;
+    };
+    $scope.cartCount = function() {
+      return haailaUtils.getShoppingCartCount();
     };
   }
 ]);

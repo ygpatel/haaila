@@ -93,7 +93,11 @@ module.exports = function(grunt) {
           {
             expand: true, cwd: 'client/bower_components/font-awesome/fonts/',
             src: ['*'], dest: '<%= distdir %>/fonts/'
-          }
+          },
+          {
+            expand: true, cwd: 'client/bower_components/bootstrap-sass/assets/fonts/bootstrap/',
+            src: ['*'], dest: '<%= distdir %>/fonts/bootstrap'
+          }          
         ]
       },
       index: {
