@@ -18,10 +18,13 @@
 
 						</div>
 						<div class="col-sm-6">
+							<a href="/category/{{categoryId}}"><span class="glyphicon glyphicon-chevron-left"></span>Back to result</a>
+							<h2 class="title text-right">{{product.name}}</h2>
+							<p class = "text-right">Web ID: {{product.code}}</p>
 							<div class="product"><!--/product-information-->
 								<!--TODO<img src="img/product-details/new.jpg" class="newarrival" alt="" />-->
-								<h2>{{product.name}}</h2>
-								<p>Web ID: {{product.code}}</p>
+								
+								
 								<!--TODO<img src="img/product-details/rating.png" alt="" />-->
 
 
@@ -40,23 +43,32 @@
                                     <customization item='item'></customization>    
                                 	<div class="col-sm-12"><hr/></div>    
 									<div class = "row">
-									<div class="col-sm-8">
+									<div class="col-sm-8 text-right">
 
-	                                        <span class="tooltip-wrapper" title="{{addButtonTooltip}}">
+
+									
+									</div>
+									<div class="col-sm-1">
+
+
+
+									</div>
+									<div class="col-sm-3 text-right"><h2><span class="price"> {{(product.scEntry.totalProductCost !=  product.sale_price  ) ?  
+            (product.scEntry.totalProductCost | currency) : ''}}</span></h2><br>
+										<span class="tooltip-wrapper" title="{{addButtonTooltip}}">
 	<!--                                            <button type="button" class="btn btn-fefault cart" ng->
 	                                                <i class="fa fa-shopping-cart"></i>
 	                                                Add to cart
 	                                            </button>-->
+	                                        
+	                                        <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Add to Cart</button> 
+	                                    
 	                                            
-	                                            <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Add to Cart</button> 
-                                            
-	                                            
-	                                        </span>
-									
-									</div>
-									<div class="col-sm-1 text-right"></div>
-									<div class="col-sm-3 text-right"><h2><span class="price"> {{(product.scEntry.totalProductCost !=  product.sale_price  ) ?  
-            (product.scEntry.totalProductCost | currency) : ''}}</span></h2></div>
+	                                    </span>
+
+
+
+            </div>
 								</div>
 
 

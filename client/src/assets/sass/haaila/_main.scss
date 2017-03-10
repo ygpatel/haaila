@@ -136,8 +136,11 @@ a#scrollUp i{
 	background:#CE3C2D;
 }
 
-.header-middle .container .row {
+.header-middle .container {
   border-bottom: 1px solid #f5f5f5;
+}
+
+.header-middle .container .row {
   margin-left: 0;
   margin-right: 0;
   padding-bottom: 0px;
@@ -239,7 +242,7 @@ a#scrollUp i{
 }
 
 .mainmenu ul li a {
-	color: #696763;
+	color:  #98AE00; 
 	font-family: 'Roboto', sans-serif;
 /*	font-size: 17px;*/
 	font-weight: 500;
@@ -249,8 +252,9 @@ a#scrollUp i{
 
 .mainmenu ul li a:hover, .mainmenu ul li a.active,  .shop-menu ul li a.active{
 	background:none;
-	color:#fdb45e;
+	color:#FF7700;
 }
+
 
 .search_box input {
   background: #F0F0E9;
@@ -835,14 +839,12 @@ h2.title:before{
 
 
 h2.title {
-  color: #FE980F;
+  color: #5382C9;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
-  font-weight: 700;
-  margin: 0 15px;
-  text-transform: uppercase;
-  margin-bottom: 30px;
-  position: relative;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .product-image-wrapper{
@@ -1162,7 +1164,7 @@ h2.title {
 .product-details {
   margin-bottom: 40px;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 

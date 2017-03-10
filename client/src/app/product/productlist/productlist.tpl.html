@@ -1,32 +1,32 @@
 
     <div class="features_items">
         <!--features_items-->
-        <h2 class="title text-center">{{category.categoryLabel}}</h2>
+        <h2 class="title text-right">{{category.categoryLabel}}</h2>
 
-    <form class="row form-horizontal">
+        <form class="row form-horizontal">
 
-        <div class="col-sm-4"></div>
+            <div class="col-sm-4"></div>
 
 
-        <div class="form-group col-sm-4" >
-            <label for="sort" class="control-label col-xs-2">Sort</label>
-            <div class="col-xs-10">
-                <select name="sort" id="sort" class="form-control  input-sm" ng-model="querySearch.sort" ng-model-options="{ debounce: 500 }" ng-options="sort.value as sort.label for sort in sorts" ng-change="filtersUpdated()" style="width: 120%;">
-                </select>
+            <div class="form-group col-sm-4" >
+                <label for="sort" class="control-label col-xs-2">Sort</label>
+                <div class="col-xs-10">
+                    <select name="sort" id="sort" class="form-control  input-sm" ng-model="querySearch.sort" ng-model-options="{ debounce: 500 }" ng-options="sort.value as sort.label for sort in sorts" ng-change="filtersUpdated()" style="width: 120%;">
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group col-sm-4 pull-right">
-            <label for="limit" class="control-label col-xs-2">Limit</label>
-            <div class="col-xs-10">
-                <select name="limit" class="form-control  input-sm" ng-model="querySearch.limit" ng-model-options="{ debounce: 500 }" ng-options="limit.value as limit.label for limit in limits" ng-change="filtersUpdated()" style="width: 100%;">
-                    <!--<option value="10">10 items</option>-->
-                    <!--<option value="20" selected="selected">20 items</option>-->
-                    <!--<option value="50">50 items</option>-->
-                    <!--<option value="100">100 items</option>-->
-                </select>
+            <div class="form-group col-sm-4 pull-right">
+                <label for="limit" class="control-label col-xs-2">Limit</label>
+                <div class="col-xs-10">
+                    <select name="limit" class="form-control  input-sm" ng-model="querySearch.limit" ng-model-options="{ debounce: 500 }" ng-options="limit.value as limit.label for limit in limits" ng-change="filtersUpdated()" style="width: 100%;">
+                        <!--<option value="10">10 items</option>-->
+                        <!--<option value="20" selected="selected">20 items</option>-->
+                        <!--<option value="50">50 items</option>-->
+                        <!--<option value="100">100 items</option>-->
+                    </select>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
 
         <div>&nbsp;</div>

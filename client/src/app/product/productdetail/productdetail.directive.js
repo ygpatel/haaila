@@ -16,6 +16,8 @@
         $rootScope.productFromCache = false;
         $scope.shoppingCart = undefined;
 
+        $scope.categoryId = haailaUtils.getActiveCategory();
+
         //check if you need to update the product with the cachedProduct (in case there was a detour to sign-in)
         if ($rootScope.cachedProduct !== undefined) {
           if ($rootScope.cachedProductUrl === $location.url) {
