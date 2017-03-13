@@ -1,20 +1,30 @@
-<div ng-repeat='queryconfig in queryConfigs' >
 
-    <h2>{{queryconfig.label}}</h2>
-  
-    <div ng-if="queryconfig.querycomponent == 'checklist'">
-    	<div qchecklist queryconfig='queryconfig'></div>
+<div >
+    <div>
+        <ul class="animate-container">
+            <li ng-if="results.length !== 0"><b>You searched</b></li>
+            <li class="animate-repeat" ng-repeat=" queryconfig in queryConfigs | filter:{'isSearched':true} as results">
+                <a href="#" ng-click="removeConfig(queryconfig)"><span class="glyphicon glyphicon-remove">&nbsp;</span></a>{{ queryconfig.label}}
+            </li>
+        </ul>
     </div>
-    
-    <div ng-if="queryconfig.querycomponent == 'colorpicker'">
-        <div colorpicker queryconfig = 'queryconfig'  queryindex = '$index'></div>
-    </div>
+    <div ng-repeat='queryconfig in queryConfigs' >
 
-    <div ng-if="queryconfig.querycomponent == 'rangeslider'">
-        <div rangeslider queryconfig = 'queryconfig'  queryindex = '$index'></div>
+        <h2>{{queryconfig.label}}</h2>
+      
+        <div ng-if="queryconfig.querycomponent == 'checklist'">
+        	<div qchecklist queryconfig='queryconfig'></div>
+        </div>
+        
+        <div ng-if="queryconfig.querycomponent == 'colorpicker'">
+            <div colorpicker queryconfig = 'queryconfig'  queryindex = '$index'></div>
+        </div>
+
+        <div ng-if="queryconfig.querycomponent == 'rangeslider'">
+            <div rangeslider queryconfig = 'queryconfig'  queryindex = '$index'></div>
+        </div> 
+           
     </div> 
-       
-</div> 
     
-
+</div>
 

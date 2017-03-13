@@ -21,7 +21,7 @@
                     />
 
                 <label for="option-{{$index}}">{{stitchInfo.label}}</label>
-                <div class="animate-switch-container" ng-show="isActive(stitchInfo.stitch, service)" >
+                <div  ng-show="isActive(stitchInfo.stitch, service)" >
                     <div   ng-switch="service.scEntry.model.stitch" >
                         <div ng-switch-when="STANDARD">
                             <div class="row">
@@ -49,7 +49,7 @@
                                 </ng-form>
                             </div>
                         </div>
-                        <div ng-switch-when="CUSTOM" class="indented">
+                        <div class="indented" ng-switch-when="CUSTOM">
                             <ng-form name="customStitchForm">
                                 <label>
                                     <input type="radio" ng-model="service.scEntry.model.customOption" value="email" ng-change='customItemSelected(service)'>
@@ -61,7 +61,7 @@
                                 </label><br/>
                             </ng-form>
                             <div ng-switch="service.scEntry.model.customOption" >
-                                <div ng-switch-when="profile">
+                                <div  ng-switch-when="profile">
                                     <div ng-if="!isAuthenticated()"><i class="fa fa-user"></i><button type="button" class="btn btn-link" ng-click="login(service)">Sign In</button> to provide custom measurement. to pick your profile</div>
                                     <div ng-if="isAuthenticated()">
                                         <span>

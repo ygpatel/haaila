@@ -5,7 +5,7 @@ var product = {
 
     req.query.limit = req.query.limit ? parseInt(req.query.limit, null) : 20;
     req.query.page = req.query.page ? parseInt(req.query.page, null) : 1;
-    req.query.sort = req.query.sort ? req.query.sort : 'category_id';
+    req.query.sort = req.query.sort ? req.query.sort : '-date_added';
 
 
     req.app.utility.products.updateProductFilter(JSON.parse(req.query.filters), function(err, updatedFilters){

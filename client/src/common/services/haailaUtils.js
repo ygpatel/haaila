@@ -41,7 +41,13 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
   haailaUtils.getProducts = function() {
 
     var filters = $rootScope.queries[$rootScope.activeCategoryIndex].query.querySearch;
-
+    if (filters.sort === undefined) {
+      filters.sort = "-date_added";
+    }
+    if (filters.limit === undefined) {
+      filters.limit = 20;
+    }
+    haailaUtils.updateRemoveQueryDisplay();
 
     var redirectUrl;
     var promise = productResource.getProductList(filters)
@@ -61,6 +67,35 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
       });
     return promise;
   };
+
+
+  haailaUtils.updateRemoveQueryDisplay = function(){
+    var qry = $rootScope.queries[$rootScope.activeCategoryIndex].query;
+    for (var i=0; i<qry.queryConfig.length; i++) {
+      if (qry.querySearch.filters[qry.queryConfig[i].code]) {
+        if (!haailaUtils.isObjectEmpty(qry.querySearch.filters[qry.queryConfig[i].code])) {
+
+          if (qry.queryConfig[i].querycomponent === "rangeslider") {
+             var objModel = qry.querySearch.filters[qry.queryConfig[i].code];
+             var objConfig = qry.queryConfig[i].data;
+             if (objConfig.min === objModel.min && objConfig.max ===  objModel.max) {
+                qry.queryConfig[i].isSearched = false;
+             } else {
+                qry.queryConfig[i].isSearched = true;
+             }
+          } else {
+
+            qry.queryConfig[i].isSearched = true;
+          }
+        } else {
+           qry.queryConfig[i].isSearched = false;
+        }       
+      } else {
+        qry.queryConfig[i].isSearched = false;
+      }
+    }
+  };
+
 
   haailaUtils.getProductDetail = function(categoryId, productId) {
     var redirectUrl;

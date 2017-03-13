@@ -15,10 +15,9 @@
       controller: ['$scope', '$rootScope', 'haailaUtils', '$log',
       function ProductListController($scope,$rootScope, haailaUtils, $log) {
         $scope.sorts = [
-          {label: "Price Lower to Higher \u25B2", value: "sale_price"},
-          {label: "Price Higher to Lower \u25BC", value: "-sale_price"},
-          {label: "Name \u25B2", value: "name"},
-          {label: "Name \u25BC", value: "-name"},
+          {label: "Newest Arrival \u2193", value: "-date_added"},
+          {label: "Price Lower to Higher \u2191", value: "sale_price"},
+          {label: "Price Higher to Lower \u2193", value: "-sale_price"}
         ];
         $scope.limits = [
           {label: "2 items", value: 2},
@@ -30,6 +29,12 @@
         
         $scope.category = $rootScope.queries[$rootScope.activeCategoryIndex];
         $scope.querySearch = $scope.category.query.querySearch;
+
+        $scope.querySearch.sort = "-date_added";
+        $scope.querySearch.limit = 20;
+
+
+
         $scope.queryResult = $scope.category.query.queryResult;
         //if user gets to the product list page product should not be loaded using the cache. 
         //This is a scenario when user had to login to load profile.
