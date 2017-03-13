@@ -2,7 +2,7 @@
 <div >
     <div>
         <ul class="animate-container">
-            <li ng-if="results.length !== 0"><b>You searched</b></li>
+            <li ng-show="results.length !== 0"><b>You searched</b></li>
             <li class="animate-repeat" ng-repeat=" queryconfig in queryConfigs | filter:{'isSearched':true} as results">
                 <a href="#" ng-click="removeConfig(queryconfig)"><span class="glyphicon glyphicon-remove">&nbsp;</span></a>{{ queryconfig.label}}
             </li>
