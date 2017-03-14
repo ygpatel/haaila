@@ -76,6 +76,9 @@ var product = {
                   //todo cache the meta info
                   variation.scEntry = {};
                   variation.scEntry.model = {};  
+                  if (tvariation.data_override) {
+                    variation.data = tvariation.data;
+                  }
                   aVariations.push(variation); 
                   insidecallback();
               })

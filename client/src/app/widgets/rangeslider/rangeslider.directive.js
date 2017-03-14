@@ -12,11 +12,18 @@
       templateUrl: 'widgets/rangeslider/rangeslider.tpl.html',
       controller : function($scope, $rootScope){
         $scope.targetQuery = $rootScope.queries[$rootScope.activeCategoryIndex].query;
-        $scope.targetQuery.querySearch.filters[$scope.queryconfig.code] = {};
+        if ($scope.targetQuery.querySearch.filters[$scope.queryconfig.code] === undefined) {
+          $scope.targetQuery.querySearch.filters[$scope.queryconfig.code] = {};
+        }
+        
         $scope.queryModel = $scope.targetQuery.querySearch.filters[$scope.queryconfig.code];
-        $scope.queryModel.min = $scope.queryconfig.data.min;
-        $scope.queryModel.max = $scope.queryconfig.data.max;
 
+        if ($scope.queryModel.min === undefined) {
+          $scope.queryModel.min = $scope.queryconfig.data.min;
+        }
+        if ($scope.queryModel.max === undefined) {
+          $scope.queryModel.max = $scope.queryconfig.data.max;
+        }
 
 
         $scope.$on("slideEnded", function(e) {
