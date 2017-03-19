@@ -7,6 +7,8 @@ angular.module('app', [
   'account',
   'admin',
   'product',
+  'cart',
+  'checkout',
   'widgets',
   'services.i18nNotifications',
   'services.httpRequestTracker',
@@ -117,7 +119,7 @@ angular.
           url: '/shoppingcart',
           views: {
             '@': { 
-              template: "<shoppingcart cart='cart'></shoppingcart>",
+              template: "<shopping-cart cart='cart'></shopping-cart>",
               controller: function($scope, cart){
                 $scope.cart = cart;
               }                     
@@ -129,6 +131,34 @@ angular.
             }]
           }
         })
+
+        .state('main.checkout', {
+          url: '/checkout',
+          views: {
+            '@': { templateUrl: 'layout/checkout.tpl.html'},
+            'billinginfo@main.checkout': { template: '<billing-info></billing-info>' },
+            'paymentmethod@main.checkout': {template: '<payment-method></payment-method>'},
+            'cartreview@main.checkout': {
+                template: "<shopping-cart cart='cart' review='true'></shopping-cart>",
+                controller: function($scope,cart) {
+                  $scope.cart = cart;
+                }
+            },
+            'ordersummary@main.checkout': {
+                template: "<order-summary cart='cart'></order-summary>",
+                controller: function($scope,cart) {
+                  $scope.cart = cart;
+                }             
+            }
+          },
+          resolve: {
+            cart: ['$rootScope', function ($rootScope) {
+              //change this to http call once serverside cart is implemented
+              return $rootScope.shoppingCart;
+            }]
+          }
+        })
+
 
 
         .state('main.login', {
@@ -216,14 +246,7 @@ angular.
 
 
 
-        .state('main.checkout', {
-          url: '/checkout',
-          views: {
-          '': { templateUrl: 'app/layout/checkout.html'},
-          'menu': { template: '<menu></menu>'}    
-          }
 
-        }) 
 
 
 

@@ -5,6 +5,5 @@ angular.module('product', [
   'product.customization',
   'product.stitchingservice',
   'product.standardsizing',
-  'product.customsizing',
-  'product.shoppingcart'
+  'product.customsizing'
 ]);

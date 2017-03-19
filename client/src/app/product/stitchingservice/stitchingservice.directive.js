@@ -120,7 +120,9 @@
             haailaUtils.getMeasurements(ser.scEntry.stitchInfo.meas_code).then(function(measConfig) {
               ser.measConfigModel={};
               ser.measConfigModel.measurement_id = measConfig;
-              
+              if (ser.scEntry.model.data === undefined) {
+                ser.scEntry.model.data = {};
+              }
               ser.scEntry.model.data.profile_name = "";
               ser.scEntry.model.data.measurements = {};
               haailaUtils.updateCustomMeasurement(ser.measConfigModel,ser.scEntry.model.data,true,addedit)

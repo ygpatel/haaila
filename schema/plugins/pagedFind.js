@@ -49,11 +49,11 @@ module.exports = exports = function pagedFindPlugin (schema) {
     };
 
     var getResults = function(callback) {
-      console.log("options.filters" + JSON.stringify(options.filters));
-      console.log("options.keys" + JSON.stringify(options.keys));
-      console.log("options.limit" + JSON.stringify(options.limit));
-      console.log("options.page" + JSON.stringify(options.page));
-      console.log("options.sort" + JSON.stringify(options.sort));
+      //console.log("options.filters" + JSON.stringify(options.filters));
+      //console.log("options.keys" + JSON.stringify(options.keys));
+      //console.log("options.limit" + JSON.stringify(options.limit));
+      //console.log("options.page" + JSON.stringify(options.page));
+      //console.log("options.sort" + JSON.stringify(options.sort));
 
 
       var query = thisSchema.find(options.filters, options.keys);
@@ -62,7 +62,7 @@ module.exports = exports = function pagedFindPlugin (schema) {
       query.sort(options.sort);
       query.exec(function(err, results) {
         output.data = results;
-        console.log("result :========>" + JSON.stringify(results));
+        //console.log("result :========>" + JSON.stringify(results));
         callback(null, 'done getting records');
       });
     };
