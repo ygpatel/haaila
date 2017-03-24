@@ -1,9 +1,26 @@
 angular.module('account.settings', ['config', 'account.settings.social', 'security.service', 'security.authorization', 'services.accountResource', 'services.utility','ui.bootstrap', 'directives.serverError']);
-angular.module('account.settings').controller('AccountSettingsCtrl', [ '$scope', '$location', '$log', 'security', 'utility', 'accountResource', 'accountDetails', 'SOCIAL',
-  function($scope, $location, $log, security, utility, restResource, accountDetails, SOCIAL){
+angular.module('account.settings').controller('AccountSettingsCtrl', [ '$scope','$location', '$log', 'security', 'utility', 'accountResource', 'accountDetails', 'SOCIAL', '$rootScope',
+  function($scope, $location, $log, security, utility, restResource, accountDetails, SOCIAL, $rootScope){
     //local vars
     var account = accountDetails.account;
     var user = accountDetails.user;
+    
+    $scope.displayContShop = function() {
+      var retVal = false;
+      if ($rootScope.previous) {
+        if ($rootScope.previous.indexOf('/product/')) {
+          retVal = true;
+        }
+      }
+      return retVal;
+    };
+
+    $scope.contShop = function(){
+      return $location.path($rootScope.previous);
+    };
+
+
+
     var submitDetailForm = function(){
       $scope.alerts.detail = [];
       restResource.setAccountDetails($scope.userDetail).then(function(data){
@@ -182,5 +199,9 @@ angular.module('account.settings').controller('AccountSettingsCtrl', [ '$scope',
         disconnect(provider);
       }
     };
+
+
+
+
   }
 ]);

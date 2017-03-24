@@ -28,5 +28,9 @@ angular.module('checkout').controller('CheckoutCtrl', ['$scope', '$location', 's
     $scope.cartCount = function() {
       return haailaUtils.getShoppingCartCount();
     };
+
+    $scope.isBillingInfoCollapsed = true;
+
+
   }
 ]);

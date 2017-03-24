@@ -388,16 +388,19 @@ var security = {
     workflow.on('logUserIn', function() {
       req._passport.instance.authenticate('local', function(err, user, info) {
         if (err) {
+          console.log('1.exception'+err)
           return workflow.emit('exception', err);
         }
 
         if (!user) {
+          console.log('Login failed. That is strange.')
           workflow.outcome.errors.push('Login failed. That is strange.');
           return workflow.emit('response');
         }
         else {
           req.login(user, function(err) {
             if (err) {
+              console.log('2.exception'+err)
               return workflow.emit('exception', err);
             }
 

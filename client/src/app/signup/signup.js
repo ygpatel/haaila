@@ -10,8 +10,8 @@ angular.module('signup').config(['$routeProvider', function($routeProvider){
           var promise = securityAuthorization.requireUnauthenticatedUser()
             .catch(function(){
               // user is authenticated, redirect
-              $location.path($rootScope.previous);
-              //$location.path('/account');
+              //$location.path($rootScope.previous);
+              $location.path('/account');
               return $q.reject();
             });
           return promise;

@@ -180,7 +180,7 @@ describe('security', function() {
         spyOn($location, 'path');
         service.logout();
         $httpBackend.flush();
-        expect($location.path).toHaveBeenCalledWith('/');
+        expect($location.path).toHaveBeenCalledWith('/home');
       });
     });
 

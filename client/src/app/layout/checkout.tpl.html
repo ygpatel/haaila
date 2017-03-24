@@ -7,7 +7,10 @@
             <div class="row" style="border-style: solid;">
                 <div class="col-md-8 padding-right">
                     <div class="row">
-                        <div class="col-md-12" ui-view="billinginfo"></div> 
+                        <div class="col-md-12" ng-click="isBillingInfoCollapsed = !isBillingInfoCollapsed">Billing Info</div> 
+                        <div uib-collapse="isBillingInfoCollapsed">
+                            <div class="col-md-12" ui-view="billinginfo"></div> 
+                        </div>    
                     </div>  
                     <div class="row">  
                         <div class="col-md-12" ui-view="paymentmethod"></div> 

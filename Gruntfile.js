@@ -256,6 +256,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('unitTest', ['clean', 'angular', 'karma:unit']);
+  grunt.registerTask('onlyUnit',['karma:unit']);
   grunt.registerTask('test', ['clean', 'lint']);
 
   grunt.registerTask('dev', ['clean', 'angular', 'concurrent']);

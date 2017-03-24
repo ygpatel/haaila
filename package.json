@@ -20,6 +20,7 @@
     "test": "grunt test"
   },
   "dependencies": {
+    "angular-ui-router": "0.4.2",
     "async": "2.1.4",
     "bcrypt": "1.0.2",
     "body-parser": "^1.x.x",
@@ -68,7 +69,7 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-phantomjs-launcher": "1.0.4",
     "mongodb": "^2.2.21",
     "prompt": "^1.0.0"
   }

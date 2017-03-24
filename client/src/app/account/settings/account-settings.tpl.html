@@ -35,7 +35,7 @@
                 <input type="text" name="zip" id="zip" class="form-control" ng-model="userDetail.zip">
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary btn-update" ng-disabled="!canSave(detailForm)" ng-click="submit(detailForm)">Update</button>
+                <button type="button" class="btn btn-primary btn-update btn-default" ng-disabled="!canSave(detailForm)" ng-click="submit(detailForm)">Update</button>
             </div>
         </form>
         <form name="identityForm">
@@ -77,6 +77,12 @@
         </form>
     </div>
     <div class="col-sm-3" ng-if="social">
+        <div  ng-show='displayContShop()'>
+            <button type="button" class="btn btn-primary" ng-click="contShop()">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+            </button>
+            <hr>
+        </div>
         <legend>Social Connections</legend>
         <alert ng-repeat="alert in socialAlerts" type="{{alert.type}}" close="closeSocialAlert($index)">{{alert.msg}}</alert>
         <a ng-repeat-start="(provider, property) in social" ng-if="property.connected" ng-click="disconnect(provider)" class="btn btn-block btn-danger"><i ng-class="'fa ' + property.icon + ' fa-lg'"></i> Disconnect {{property.text}}</a>

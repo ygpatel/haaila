@@ -1,5 +1,6 @@
 angular.module('app', [
   //'ngRoute', TODO change to ui.router
+  'ngRoute',
   'config',
   'base',
   'signup',

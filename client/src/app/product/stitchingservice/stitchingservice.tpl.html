@@ -72,7 +72,9 @@
                                                     required>
                                                     <option value="">Select a profile</option>  
                                             </select>
-                                            <button type="button" class="btn btn-sm" ng-click="addUpdateMeasurement(service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
+                                            <button type="button" 
+                                                    class="btn btn-sm" 
+                                                    ng-click="addUpdateMeasurement(service, 'EDIT')" ng-disabled="!service.scEntry.model.data">View/Update Profile</button>
                                         </span>
                                         &nbsp; <button type="button" class="btn btn-link" ng-click="addUpdateMeasurement(service, 'ADD')"  >Add New Profile</button>
                                     </div>

@@ -17,6 +17,7 @@ module.exports = function (config) {
       'dist/vendor/angular-route.js',
       'dist/vendor/angular-sanitize.js',
       'dist/vendor/angular-touch.js',
+      'dist/vendor/angular-ui-router.js',
       'dist/vendor/ui-bootstrap.js',
       'dist/vendor/ui-bootstrap-tpls.js',
       'dist/vendor/moment.js',
