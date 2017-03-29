@@ -7,7 +7,8 @@
       restrict : 'EA',
       templateUrl:'cart/shopping-cart/shopping-cart.tpl.html',
       scope : {
-        cart : "="
+        cart : "=",
+        inCheckout : "="
       },
       controller: ['$scope',  '$location', '$log', 'haailaUtils', "$rootScope", "$filter",
       function($scope,  $location, $log, haailaUtils,$rootScope, $filter){
@@ -59,7 +60,7 @@
         };
 
         $scope.checkout =  function(){
-          console.log("checking out");
+          $location.url("/checkout");
           //$ctrl.close({$value: $ctrl.target});
         };
 
@@ -67,6 +68,8 @@
           $scope.cart.splice(itemIndex,1);
           $scope.updateTotals();
         };
+
+
       }   
     ]};
   });

@@ -1,4 +1,4 @@
-<div>
+<div ng-if="!inCheckout">
 	<h2 class="title text-center">Shopping Cart</h2>
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
@@ -53,7 +53,7 @@
                             <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
                         </button></td>
                         <td>
-                        <button type="button" class="btn btn-success">
+                        <button type="button" class="btn btn-success" ng-click="checkout()">
                             Checkout <span class="glyphicon glyphicon-play"></span>
                         </button></td>
                     </tr>
@@ -62,3 +62,56 @@
         </div>
     </div>
 </div>
+
+
+<div ng-if="inCheckout">
+    
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <tbody>
+                    <tr ng-repeat="item in cart">
+                        <td class="col-sm-3">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#" > <img class="media-object" src="{{item.thumb}}" > </a>
+                                
+                            </div>
+                        </td>
+                        <td class="col-sm-6" style="text-align: left">
+                            <div class="media-body" style="padding-left: 5px;">
+                                <p>Qty: {{item.qty}} @ {{item.totalProductCost | currency}} </p>
+                                <strong><a href="#">{{item.name}}</a></strong>
+                                <!-- <p ng-bind-html="getDetails(item)"></p> -->
+                            </div>
+                        </td>
+                        <td class="col-sm-3 text-right"><strong>{{item.totalProductCost*item.qty | currency}}</strong></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>   </td>
+                        <td><h5>Subtotal<br>Estimated shipping</h5><h3>Total</h3></td>
+                        <td class="text-right"><h5><strong>{{orderTotal | currency}}<br>{{shippingCost | currency}}</strong></h5><h3>{{orderTotal+shippingCost | currency}}</h3></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button type="button" class="btn btn-success" ng-click="checkout()">
+                                Checkout <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

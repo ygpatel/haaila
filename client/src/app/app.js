@@ -120,7 +120,7 @@ angular.
           url: '/shoppingcart',
           views: {
             '@': { 
-              template: "<shopping-cart cart='cart'></shopping-cart>",
+              template: "<shopping-cart cart='cart' in-checkout='false'></shopping-cart>",
               controller: function($scope, cart){
                 $scope.cart = cart;
               }                     
@@ -137,10 +137,14 @@ angular.
           url: '/checkout',
           views: {
             '@': { templateUrl: 'layout/checkout.tpl.html'},
+            'signin@main.checkout' : {
+              templateUrl: 'login/login.tpl.html',
+              controller: 'LoginCtrl'
+            },
             'billinginfo@main.checkout': { template: '<billing-info></billing-info>' },
             'paymentmethod@main.checkout': {template: '<payment-method></payment-method>'},
             'cartreview@main.checkout': {
-                template: "<shopping-cart cart='cart' review='true'></shopping-cart>",
+                template: "<shopping-cart cart='cart' in-checkout='true'></shopping-cart>",
                 controller: function($scope,cart) {
                   $scope.cart = cart;
                 }
@@ -155,6 +159,7 @@ angular.
           resolve: {
             cart: ['$rootScope', function ($rootScope) {
               //change this to http call once serverside cart is implemented
+              $rootScope.previous = '/checkout';
               return $rootScope.shoppingCart;
             }]
           }

@@ -1,11 +1,38 @@
 <section ng-controller="CheckoutCtrl">
-    <div class="container">
+    <div class="container" ng-show="showCheckoutType()">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <div class="login-form"><!--login form-->
+                            <h2>Sign in to enjoy faster, easier checkout.</h2>
+                                <div ui-view="signin"></div>
+                        </div><!--/login form-->
+                    </div>
+                    <div class="col-sm-1">
+                        <h2 class="or">OR</h2>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-update btn-default"  
+                                    ng-click="isGuestCheckOutActivated = true">Checkout as Guest</button>
+                        </div>            
+
+                    </div>
+                </div>
+            </div>    
+        </div> 
+    </div>
+    <div class="container" ng-hide="showCheckoutType()">
         <form   name="checkoutForm"  
                 ng-class="{'submitted': submitted}" 
                 ng-submit="checkOut(checkoutForm.$valid)" 
                 novalidate > 
             <div class="row" style="border-style: solid;">
-                <div class="col-md-8 padding-right">
+                <div class="col-md-6 padding-right">
+                    <!-- Begin:Type of Checkout Login or Guest -->
+
+                    <!--End:Type of Checkout Login or Guest -->
                     <div class="row">
                         <div class="col-md-12" ng-click="isBillingInfoCollapsed = !isBillingInfoCollapsed">Billing Info</div> 
                         <div uib-collapse="isBillingInfoCollapsed">
@@ -15,12 +42,13 @@
                     <div class="row">  
                         <div class="col-md-12" ui-view="paymentmethod"></div> 
                     </div>
+   
+                </div>
+                <div class="col-md-6">
                     <div class="row">    
                         <div class="col-md-12" ui-view="cartreview"></div> 
+                        <div ui-view="ordersummary"></div> 
                     </div>    
-                </div>
-                <div class="col-md-4">
-                    <div ui-view="ordersummary"></div> 
                 </div>
             </div>
         </form>

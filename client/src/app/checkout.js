@@ -12,15 +12,13 @@ angular.module('checkout').controller('CheckoutCtrl', ['$scope', '$location', 's
     $scope.isAuthenticated = function(){
       return security.isAuthenticated();
     };
-    $scope.isAdmin = function(){
-      if($location.path().indexOf('/admin') === -1){
+    $scope.isGuestCheckOutActivated = false;
+    $scope.showCheckoutType = function(){
+      if ($scope.isGuestCheckOutActivated || $scope.isAuthenticated()) {
         return false;
-      }else{
-        return security.isAdmin();
+      } else  {
+        return true;
       }
-    };
-    $scope.logout = function(){
-      return security.logout();
     };
     $scope.isActive = function(viewLocation){
       return $location.path() === viewLocation;

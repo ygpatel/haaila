@@ -15,9 +15,9 @@
       controller: ['$scope', '$rootScope', 'haailaUtils', '$log',
       function ProductListController($scope,$rootScope, haailaUtils, $log) {
         $scope.sorts = [
-          {label: "Newest Arrival \u2193", value: "-date_added"},
-          {label: "Price Lower to Higher \u2191", value: "sale_price"},
-          {label: "Price Higher to Lower \u2193", value: "-sale_price"}
+          {label: "\u2193 Newest Arrival", value: "-date_added"},
+          {label: "\u2191 Price Lower to Higher", value: "sale_price"},
+          {label: "\u2193 Price Higher to Lower", value: "-sale_price"}
         ];
         $scope.limits = [
           {label: "2 items", value: 2},
