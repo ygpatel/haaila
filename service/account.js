@@ -110,6 +110,17 @@ var account = {
       });
     };
 
+    var getAccountAddresses = function(callback) {
+      var queryObj = {"account_id" : req.user.roles.account.id}
+      req.app.db.models.AccountAddress.find(queryObj, '_id default name address1 address2 city state country zip phone').lean().exec(function(err, accountAddresses) {
+        if (err) {
+          return callback(err, null);
+        }
+        outcome.addresses = accountAddresses;
+        callback(null, 'done');
+      });
+    };
+
     var getUserData = function(callback) {
       req.app.db.models.User.findById(req.user.id, 'username email twitter.id github.id facebook.id google.id tumblr.id').exec(function(err, user) {
         if (err) {
@@ -125,6 +136,7 @@ var account = {
       if (err) {
         return next(err);
       }
+      console.log("Addresses : " + JSON.stringify(outcome.addresses));
       res.status(200).json(outcome);
 
       //res.render('account/settings/index', {
@@ -146,8 +158,9 @@ var account = {
       //});
     };
 
-    require('async').parallel([getAccountData, getUserData], asyncFinally);
+    require('async').parallel([getAccountData, getAccountAddresses, getUserData], asyncFinally);
   },
+
   update: function(req, res, next){
     var workflow = req.app.utility.workflow(req, res);
 
@@ -587,7 +600,7 @@ var account = {
         if (err) {
           return callback(err, null);
         }
-        console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
+        //console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
         return res.status(200).json(accountMeasurements)
       });
   },
@@ -660,6 +673,153 @@ var account = {
             }  
           }
           workflow.outcome.measurements = measurements;
+          return workflow.emit('response');
+        });
+      }
+
+    });
+
+    workflow.emit('validate');    
+  },
+
+
+  setDefaultAccountAddress: function(req,res,next) {
+    var workflow = req.app.utility.workflow(req, res);
+    workflow.on('validate', function() {
+      if (!req.body.address1) {
+        workflow.outcome.errfor.address1 = 'required';
+      }
+      workflow.emit('setDefault');
+    });
+    workflow.on('setDefault', function() {
+      //First set all the address to not be default
+      req.app.db.models.AccountAddress.update({account_id:req.user.roles.account.id},{default:false},{multi:true}, 
+        function(err,num) {
+          if (err) {
+            console.log("Error_code"+err.code);
+            return workflow.emit('exception', err);
+          } else {
+
+            var fieldsToSet = {
+              default: true
+            };
+
+            var fieldsToSearch = {
+             account_id : req.user.roles.account.id,
+             _id : req.body._id
+            }
+
+            var options = { select: 'name address1 address2 city state country zip phone'};
+            //set the default address
+            req.app.db.models.AccountAddress.findOneAndUpdate(fieldsToSearch, fieldsToSet, {new: true}, function(err, address) {
+              if (err) {
+                console.log("Error_code"+err.code);
+                if (err.code ){
+                  return workflow.emit('exception', err);
+                }  
+              } else {
+                workflow.outcome.address = address;
+                return workflow.emit('response');
+              }  
+            });
+          }
+        }
+      );
+    }); 
+    workflow.emit('validate');  
+  },
+
+
+  updateAccountAddress: function(req,res,next) {
+
+    var workflow = req.app.utility.workflow(req, res);
+
+    workflow.on('validate', function() {
+      if (!req.body.address1) {
+        workflow.outcome.errfor.address1 = 'required';
+      }
+      if (!req.body.city) {
+        workflow.outcome.errfor.city = 'required';
+      }
+
+      if (!req.body.state) {
+        workflow.outcome.errfor.state = 'required';
+      }
+      if (!req.body.zip) {
+        workflow.outcome.errfor.zip = 'required';
+      }
+
+      if (!req.body.state) {
+        workflow.outcome.errfor.state = 'required';
+      }
+
+      if (!req.body.country) {
+        //replace this based on the geo location
+        req.body.country = "US";
+      }
+
+      if (!req.body.country) {
+        req.body.default = false;
+      }
+
+      if (workflow.hasErrors()) {
+        return workflow.emit('response');
+      }
+
+      workflow.emit('updateAddress');
+    });
+
+    workflow.on('updateAddress', function() {
+
+      var mode = req.body.mode
+      var fieldsToSet = {
+        name: req.body.name,
+        address1: req.body.address1,
+        address2: req.body.address2,
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country,
+        zip: req.body.zip
+      };
+
+      if (mode === "ADD") {
+        fieldsToSet.account_id = req.user.roles.account.id
+      }
+
+      var options = { select: 'name address1 address2 city state country zip phone'};
+
+      if (mode === "ADD") {
+        //create new model
+        console.log ("adding a new measurement profile.");
+        var post = new req.app.db.models.AccountAddress(fieldsToSet);
+
+        //save model to MongoDB
+        post.save(function (err, address) {
+          if (err) {
+            console.log("Error_code"+err.code);
+            if (err.code && err.code === 11000) {
+              workflow.outcome.errors.push('Address for this Profile Name already existing....Please use a different Profile Name');  
+              return workflow.emit('response');
+            } else {
+              return workflow.emit('exception', err);
+            }  
+          }
+          workflow.outcome.address = address;
+          return workflow.emit('response');
+
+        });
+      } else {
+        req.app.db.models.AccountAddress.findByIdAndUpdate(req.body._id, fieldsToSet, options, function(err, address) {
+          if (err) {
+            console.log("Error_code"+err.code);
+            if (err.code && err.code === 11000) {
+              workflow.outcome.errors.push('Measurements for this Profile Name already existing....Please use a different Profile Name');  
+              return workflow.emit('response');
+            } else {
+              return workflow.emit('exception', err);
+            }  
+          }
+          workflow.outcome.address = address;
           return workflow.emit('response');
         });
       }

@@ -204,13 +204,25 @@ angular.
               controller : 'AccountCtrl'
             },
             'settings@main.account' : {
-              templateUrl: 'account/settings/account-settings.tpl.html',
+              templateUrl: 'account/settings/account-settings-info.tpl.html',
               controller: 'AccountSettingsCtrl'
             },
+            'identity@main.account' : {
+              templateUrl: 'account/settings/account-settings-identity.tpl.html',
+              controller: 'AccountSettingsCtrl'
+            },            
+            'addresses@main.account' : {
+                template: "<address-book addresses='addresses' selectonly='false'></address-book>",
+                controller: function($scope,accountDetails) {
+                  $scope.addresses = accountDetails.addresses;
+                }  
+            },            
             'measurements@main.account' : {
               templateUrl: 'account/measurements/account-measurements.tpl.html',
               controller: 'AccountMeasurementsCtrl'
             }
+
+
           },
           resolve : {
             authenticatedUser: securityAuthorizationProvider.requireAuthenticatedUser,

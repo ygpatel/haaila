@@ -20,4 +20,9 @@ angular.module('account.index').controller('AccountCtrl', [ '$scope',
     $scope.dayOfWeek = moment().format('d');
     $scope.weekYear = moment().format('gg');
     $scope.hourOfDay = moment().format('H');
+
+
+    $scope.view_tab = "infoTab";
+    $scope.changeTab = function(tab) { $scope.view_tab = tab; };
+
   }]);

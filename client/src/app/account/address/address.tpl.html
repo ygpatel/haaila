@@ -1,0 +1,130 @@
+<div>    
+    <div class="modal-header" ng-if="$ctrl.data.mode !== 'CAPTURE'">
+        <h3 class="modal-title" id="modal-title">Address</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+
+        <form name="addressForm"  ng-class="{'submitted': submitted}" ng-submit="$ctrl.save(addressForm.$valid)" novalidate>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <alert ng-repeat="alert in $ctrl.alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
+                </div>
+                <div class="col-md-3"></div>
+            </div>    
+            <br/>
+
+
+
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">Name:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.name}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.name" />  
+
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">Address 1:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.address1}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.address1" />  
+                    <div    
+                        class="validation-error" 
+                        ng-messages="addressForm.$error"
+                        ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                    </div>  
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">Address 2:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.address2}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.address2" />   
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">City:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.city}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.city" />  
+                    <div    
+                        class="validation-error" 
+                        ng-messages="addressForm.$error"
+                        ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                    </div>  
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">State:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.state}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.state" />  
+                    <div    
+                        class="validation-error" 
+                        ng-messages="addressForm.$error"
+                        ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                    </div>  
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">Zip:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.zip}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.zip" />  
+                    <div    
+                        class="validation-error" 
+                        ng-messages="addressForm.$error"
+                        ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                    </div>  
+                </div>   
+            </div>
+            <div class="row">   
+                <div class="col-md-5">
+                    <label class="label-mini">Phone #:</label>
+                </div>
+                <div class="col-md-7">
+                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.phone}}</label>
+                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.phone" />  
+                    <div    
+                        class="validation-error" 
+                        ng-messages="addressForm.$error"
+                        ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                    </div>  
+                </div>   
+            </div>
+            <div class="row">
+                <div class="col-md-12 center-block validation-error" 
+                    ng-messages="addressForm.$error"
+                    ng-if="addressForm.$dirty && addressForm.$invalid" >
+                        <div ng-message="required">Please select all the sizes</div>
+                </div>
+            </div>             
+            <div class="row" ng-if="!$ctrl.delete && $ctrl.data.mode !== 'CAPTURE'">
+                <div class="modal-footer" col-md-12>
+                    <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Save</button>
+                    <button class="btn btn-warning" type="button" ng-click="$ctrl.closeModal()">Close</button>
+                </div>   
+            </div> 
+        </form>    
+    </div>
+
+</div> 

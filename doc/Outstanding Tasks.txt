@@ -1,0 +1,20 @@
+Outstanding Tasks
+
+Address Book
+Checkout (server side with cookie based tracking of shopping cart)
+Payment Gateway
+Confirmation Email
+Order History
+Wish List
+Social Connectivity
+Beautification
+Session timeout setting 
+Securing the application
+Performance
+Hardening
+Admin Screens
+Launch
+
+
+Convert to Angular 2
+

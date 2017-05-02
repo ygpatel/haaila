@@ -101,6 +101,10 @@ exports = module.exports = function(app, passport) {
   app.get('/api/account/settings/measurements/:measurement_id', account.getAccountMeasurements);
   app.get('/api/account/settings/measurements', account.getAccountMeasurements);
   app.put('/api/account/settings/measurements', account.updateAccountMeasurements);
+  //app.get('/api/account/settings/addresses', account.getAccountAddresses);
+  app.put('/api/account/settings/address', account.updateAccountAddress);
+  app.put('/api/account/settings/default-address', account.setDefaultAccountAddress);
+
 
   //-----athorization required api-----
   app.all('/api/admin*', apiEnsureAuthenticated);
@@ -190,7 +194,7 @@ exports = module.exports = function(app, passport) {
   app.get('/login/facebook', passport.authenticate('facebook', { callbackURL: 'http://' + app.config.hostname + '/login/facebook/callback', scope: ['email'] }));
   app.get('/login/facebook/callback', useAngular);
   app.get('/login/google', passport.authenticate('google', { callbackURL: 'http://' + app.config.hostname + '/login/google/callback', scope: ['profile email'] }));
-  app.get('/login/google/callback', useAngular);
+  app.get('/login/google/callback', useAngular);  
 
   //account
   app.get('/account', useAngular);

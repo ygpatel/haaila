@@ -15,13 +15,6 @@ var config = require('./config'),
     csrf = require('csurf'),
     async = require('async');
 
-//from haaila old that was not in drywall
-//var cors = require('cors');
-//var errorHandler = require('./routes/utils/errorHandler')();
-//var favicon = require('serve-favicon');
-
-
-
 //create express app
 var app = express();
 
@@ -44,8 +37,8 @@ require('./models')(app, mongoose);
 //settings
 app.disable('x-powered-by');
 app.set('port', config.port);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views')); //check to remove this
+app.set('view engine', 'jade'); //check to remove this
 
 //middleware
 app.use(require('morgan')('dev'));

@@ -7,3 +7,4 @@ angular.module('product', [
   'product.standardsizing',
   'product.customsizing'
 ]);
+

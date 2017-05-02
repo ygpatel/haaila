@@ -8,7 +8,7 @@
       templateUrl:'cart/billing-info/billing-info.tpl.html',     
       controller: ["$scope", "haailaUtils",
         function billingInfoController($scope, haailaUtils) {
-
+          
        } 
       ]};   
   });

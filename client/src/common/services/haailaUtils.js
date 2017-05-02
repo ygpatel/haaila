@@ -269,6 +269,46 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     // });
   };
 
+
+  haailaUtils.updateAddress = function (data,addedit) {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      backdrop: 'static',
+      component: 'address',
+      resolve : {
+        addressObj : function() {
+          var resObj = {};
+          resObj.data = data;
+          resObj.mode = addedit;
+          return resObj;
+        } 
+      }   
+    });
+    return modalInstance.result;
+  };
+
+
+
+
+
+
+  haailaUtils.setDefaultAddress = function(data) {
+    var redirectUrl;
+    var promise = accountResource.setDefaultAddress(data)
+      .then(function(data){
+        return $q.resolve(data);
+      }, function(reason){
+        return $q.reject();
+      })
+      .catch(function(){
+        //todo proper handling of redirect in case of errors or exceptions.
+        redirectUrl = redirectUrl || '/home';
+        $location.path(redirectUrl);
+        return $q.reject();
+      });
+    return promise;  
+  };
+
   haailaUtils.getShoppingCart = function(cart) {     
     var modalInstance = $uibModal.open({
       animation: true,

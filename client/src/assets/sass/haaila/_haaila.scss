@@ -338,3 +338,23 @@ a img {outline : none;}
       border-top-left-radius:5px;
        }
 
+.update-record {
+    cursor: pointer;
+    width: 100%;
+    margin: 6px 6px 6px 6px;
+    padding: 6px 50px 6px 50px; 
+    border-style:solid;  
+    border-width:thin;
+}
+
+.add-record {
+    display: flex; 
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    height: 110px;
+    width: 100%;
+    margin: 6px 6px 6px 6px;
+    border-style:dashed;
+    border-width:thin;
+}

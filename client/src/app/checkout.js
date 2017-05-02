@@ -3,8 +3,10 @@ angular.module('checkout', [
   'product',
   'widgets',
   'services.haailaUtils',
-  'ui.bootstrap',
-  'ui.router'
+  'ui.router',
+  'ngAnimate',
+  'ngSanitize',
+  'ui.bootstrap'
 ]);
 
 angular.module('checkout').controller('CheckoutCtrl', ['$scope', '$location', 'security','haailaUtils',
@@ -26,9 +28,12 @@ angular.module('checkout').controller('CheckoutCtrl', ['$scope', '$location', 's
     $scope.cartCount = function() {
       return haailaUtils.getShoppingCartCount();
     };
+    $scope.isBillingInfoCollapsed = false;
+    //provide a resolve object in the format that the address component uses.
 
-    $scope.isBillingInfoCollapsed = true;
-
+    $scope.resolve = {
+      addressObj:{data:{}, mode: "CAPTURE"}
+    };
 
   }
 ]);

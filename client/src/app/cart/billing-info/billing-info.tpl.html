@@ -1,29 +1,52 @@
-<div class="form-group">
-<h2 class="title text-center">Billing Info</h2>
-    <form name="registrationForm" novalidate
-          ng-submit="registration.submit(registrationForm.$valid)">
-        <div class="form-group" validate-form>
-            <label>User Name</label><span class="isRequired">*</span>
-            <input type="text" name="username" class="form-control" ng-model="registration.user.username" required ng-minlength="4" />
-            <div ng-if="registrationForm.username.$invalid && !registrationForm.username.$pristine" ng-messages="registrationForm.username.$error" ng-messages-include="messages.html"></div>
-        </div>
-        <div class="form-group" validate-form>
-            <label>Password</label><span class="isRequired">*</span>
-            <input type="password" name="password" class="form-control" ng-model="registration.user.password" required />
-            <div ng-if="registrationForm.password.$invalid && !registrationForm.password.$pristine" ng-messages="registrationForm.password.$error" ng-messages-include="messages.html"></div>
-        </div>
-        <div class="form-group" validate-form>
-            <label>Confirm Password</label><span class="isRequired">*</span>
-            <input type="password" name="confirmPassword" class="form-control"
-                   ng-model="registration.user.confirmPassword"
-                   required compare-to="registration.user.password" />
-            <div ng-if="registrationForm.confirmPassword.$invalid && !registrationForm.confirmPassword.$pristine" ng-messages="registrationForm.confirmPassword.$error" ng-messages-include="messages.html"></div>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" ng-disabled="!registrationForm.$valid">Register!</button>
-        </div>
-    </form>
 
-
+<div class="row">
+    <div class="col-sm-12">
+        <form name="detailForm">
+            <legend>Contact Info</legend>
+            <alert ng-repeat="alert in alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.first)}">
+                <label class="control-label" for="first">First Name:</label>
+                <input type="text" name="first" id="first" class="form-control" ng-model="userDetail.first" required>
+                <span class="help-block" ng-show="showError(detailForm.first, 'required')">This field is required</span>
+            </div>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.middle)}">
+                <label class="control-label" for="middle">Middle Name:</label>
+                <input type="text" name="middle" id="middle" class="form-control" ng-model="userDetail.middle">
+            </div>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.last)}">
+                <label class="control-label" for="last">Last Name:</label>
+                <input type="text" name="last" id="last" class="form-control" ng-model="userDetail.last" required>
+                <span class="help-block" ng-show="showError(detailForm.last, 'required')">This field is required</span>
+            </div>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.address1)}">
+                <label class="control-label" for="address1">Address Line 1:</label>
+                <input type="text" name="address1" id="address1" class="form-control" ng-model="userDetail.address1">
+            </div>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.address2)}">
+                <label class="control-label" for="address2">Address Line 2 (Optional):</label>
+                <input type="text" name="address2" id="address2" class="form-control" ng-model="userDetail.address2">
+            </div>  
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.city)}">
+                <label class="control-label" for="city">City:</label>
+                <input type="text" name="city" id="city" class="form-control" ng-model="userDetail.city">
+            </div>               
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.state)}">
+                <label class="control-label" for="state">State:</label>
+                <select name="state" id="state" data-ng-options="name as item for abbreviation in states" data-ng-model="userDetail.state">
+            </div> 
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.phone)}">
+                <label class="control-label" for="phone">Phone:</label>
+                <input type="text" name="phone" id="phone" class="form-control" ng-model="userDetail.phone">
+            </div>
+            <div class="form-group" ng-class="{'has-error': hasError(detailForm.zip)}">
+                <label class="control-label" for="zip">Zip:</label>
+                <input type="text" name="zip" id="zip" class="form-control" ng-model="userDetail.zip">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-update btn-default" ng-disabled="!canSave(detailForm)" ng-click="submit(detailForm)">Continue</button>
+            </div>
+        </form>
+    </div>
 </div>
+
 

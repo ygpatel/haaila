@@ -22,5 +22,6 @@ exports = module.exports = function(app, mongoose) {
 	require('./schema/Variation')(app, mongoose);	
 	require('./schema/Measurement')(app, mongoose);	
   require('./schema/AccountMeasurement')(app, mongoose);
+  require('./schema/AccountAddress')(app, mongoose);  
     
 };

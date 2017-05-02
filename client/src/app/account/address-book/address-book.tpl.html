@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="title"><h3>Address Book</h3></div>
+    </div>
+</div>
+<div style="width:70%">
+    <div ng-if='!selectonly'>
+        <div class="row add-record" data-ng-click="addAddress()" >
+            
+                <h4 class="center-block">Add New Address</h4>
+           
+        </div>
+    </div>
+    <div ng-repeat="address in addresses">
+        <div class="row update-record" >
+            <div class="col-sm-9"> 
+                <span ng-if="address.default" class="text-success"><strong>*Default*</strong><br/></span> 
+                <span><strong>{{address.name}}</strong></span><br/>  
+                <span>{{address.address1}}</span><br/> 
+                <span ng-if = "address.address2 !==''"  >{{address.address2}}<br/></span>  
+                <span>{{address.city+" "+address.state+ " "+address.zip}}</span><br/>  
+                <span>{{address.country}}</span> 
+                <span ng-if = "address.phone !==''" > Phone: {{address.phone}}</span>          
+            </div>
+            <div ng-if='!selectonly' class="col-sm-3">   
+                <button 
+                    type="button" class="btn btn-link" 
+                    data-ng-click="updateAddress(address)">Update</button>
+                <button 
+                    type="button" class="btn btn-link" 
+                    data-ng-click="deleteAddress(address)">Delete</button>
+
+                <button 
+                    ng-if="!address.default" type="button" class="btn btn-link" 
+                    data-ng-click="setDefault(address)">Set as default</button>
+            </div>
+            <div ng-if='selectonly' class="col-sm-3">
+                <button 
+                    type="button" class="btn btn-small" 
+                    data-ng-click="selectAddtress(address)">Select this address</button>
+            </div>
+        </div>
+    </div>
+</div>
