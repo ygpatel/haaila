@@ -12,15 +12,19 @@
     controller: ["accountResource", function (accountResource) {
       var $ctrl = this;
       $ctrl.retVal = "";
-      $ctrl.$onInit = function () {
-        $ctrl.data = $ctrl.resolve.addressObj.data;
-        $ctrl.data.mode = $ctrl.resolve.addressObj.mode; 
-        $ctrl.delete  = $ctrl.resolve.addressObj.mode === 'DELETE';       
-      };
-
-      $ctrl.errfor = {}; //for identity server-side validation
+      $ctrl.errfor = {};
       $ctrl.alerts = {
         detail: [], identity: [], pass: []
+      };
+
+      $ctrl.$onInit = function () {
+        
+        //$ctrl.address = $ctrl.resolve.resolveObj.address;
+        //$ctrl.mode = $ctrl.resolve.resolveObj.mode;  // this can hold ADD, EDIT, DELETE, DISPLAY, FDISPLAY (formatted display)    
+      };
+
+      $ctrl.isEdit = function() {
+        return ($ctrl.resolve.resolveObj.mode === 'DELETE' || $ctrl.resolve.resolveObj.mode === 'DISPLAY' ? false : true);
       };
 
       $ctrl.save =  function(){

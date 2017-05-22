@@ -117,6 +117,25 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     return promise;
   };
 
+  haailaUtils.getDefaultAddress = function() {
+    var promise = accountResource.getDefaultAddress()
+      .then(function(data){
+        //handles url with query(search) parameter
+        return $q.resolve(data);
+      }, function(reason){
+        //rejected either user is un-authorized or un-authenticated
+        //redirectUrl = reason === 'unauthorized-client'? '/account': '/login';
+        return $q.reject("Error fetching default address");
+      })
+      .catch(function(){
+        //todo proper handling of redirect in case of errors or exceptions.
+        return $q.reject("Error fetching default address");
+      });
+    return promise;  
+  };
+
+
+
   haailaUtils.getMeasurements = function(measurementId) {
     var redirectUrl;
     var promise = productResource.getMeasurements(measurementId)
@@ -270,16 +289,17 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
   };
 
 
-  haailaUtils.updateAddress = function (data,addedit) {
+  haailaUtils.updateAddress = function (address,mode) {
     var modalInstance = $uibModal.open({
       animation: true,
       backdrop: 'static',
       component: 'address',
       resolve : {
-        addressObj : function() {
+        resolveObj : function() {
           var resObj = {};
-          resObj.data = data;
-          resObj.mode = addedit;
+          resObj.address = address;
+          resObj.mode = mode ;
+          resObj.ready = true;
           return resObj;
         } 
       }   

@@ -1,0 +1,44 @@
+
+<div>    
+
+    <div>
+
+        <form name="paymentForm"  ng-class="{'submitted': submitted}" ng-submit="$ctrl.save(paymentForm.$valid)" novalidate>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <alert ng-repeat="alert in $ctrl.alerts.detail" type="{{alert.type}}" close="closeAlert('detail', $index)">{{alert.msg}}</alert>
+                </div>
+                <div class="col-md-3"></div>
+            </div>    
+            <br/>
+
+             <div ng-repeat="paymentType in $ctrl.paymentTypes">
+                <input 
+                    type="radio" 
+                    ng-value="paymentType.name" 
+                    ng-model="$ctrl.paymentInfo.type" 
+                    />
+
+                <label for="option-{{$index}}">{{paymentType.label}}</label>
+                <div ng-switch="paymentType.name">
+                  <div ng-switch-when="PAYPAL">
+                     <h1>PayPal</h1>
+                     <p>Enter paypal information</p>
+                  </div>
+                  <div ng-switch-when="CREDITCARD">
+                     <h1>Credit Card</h1>
+                     <p>Enter Credit Card information</p>
+                  </div>
+                </div>
+            </div>            
+
+
+
+        </form>    
+    </div>
+
+</div> 
+
+

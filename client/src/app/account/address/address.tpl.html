@@ -1,5 +1,6 @@
-<div>    
-    <div class="modal-header" ng-if="$ctrl.data.mode !== 'CAPTURE'">
+<div ng-if="$ctrl.resolve.resolveObj.ready">
+<div ng-if="$ctrl.resolve.resolveObj.mode !== 'FDISPLAY'">    
+    <div class="modal-header" ng-if="$ctrl.resolve.resolveObj.mode !== 'CAPTURE'">
         <h3 class="modal-title" id="modal-title">Address</h3>
     </div>
     <div class="modal-body" id="modal-body">
@@ -15,25 +16,24 @@
             </div>    
             <br/>
 
-
-
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">Name:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.name}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.name" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.name}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.name" />  
 
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">Address 1:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.address1}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.address1" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.address1}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.address1" />  
                     <div    
                         class="validation-error" 
                         ng-messages="addressForm.$error"
@@ -42,22 +42,24 @@
                     </div>  
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">Address 2:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.address2}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.address2" />   
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.address2}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.address2" />   
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">City:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.city}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.city" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.city}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.city" />  
                     <div    
                         class="validation-error" 
                         ng-messages="addressForm.$error"
@@ -66,13 +68,14 @@
                     </div>  
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">State:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.state}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.state" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.state}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.state" />  
                     <div    
                         class="validation-error" 
                         ng-messages="addressForm.$error"
@@ -81,13 +84,14 @@
                     </div>  
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">Zip:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.zip}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.zip" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.zip}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.zip" />  
                     <div    
                         class="validation-error" 
                         ng-messages="addressForm.$error"
@@ -96,13 +100,14 @@
                     </div>  
                 </div>   
             </div>
+
             <div class="row">   
                 <div class="col-md-5">
                     <label class="label-mini">Phone #:</label>
                 </div>
                 <div class="col-md-7">
-                    <label ng-if="$ctrl.delete" class="label-mini">{{$ctrl.data.phone}}</label>
-                    <input ng-if="!$ctrl.delete" class="input-mini" type="text" ng-model="$ctrl.data.phone" />  
+                    <label ng-if="!$ctrl.isEdit" class="label-mini">{{$ctrl.resolve.resolveObj.address.phone}}</label>
+                    <input ng-if="$ctrl.isEdit" class="input-mini" type="text" ng-model="$ctrl.resolve.resolveObj.address.phone" />  
                     <div    
                         class="validation-error" 
                         ng-messages="addressForm.$error"
@@ -111,20 +116,34 @@
                     </div>  
                 </div>   
             </div>
+
             <div class="row">
                 <div class="col-md-12 center-block validation-error" 
                     ng-messages="addressForm.$error"
                     ng-if="addressForm.$dirty && addressForm.$invalid" >
                         <div ng-message="required">Please select all the sizes</div>
                 </div>
-            </div>             
-            <div class="row" ng-if="!$ctrl.delete && $ctrl.data.mode !== 'CAPTURE'">
+            </div>    
+
+            <div class="row" ng-if="$ctrl.isEdit && $ctrl.resolve.resolveObj.mode !== 'CAPTURE'">
                 <div class="modal-footer" col-md-12>
                     <button type="submit" class="btn btn btn-primary" ng-click="submitted= true;">Save</button>
                     <button class="btn btn-warning" type="button" ng-click="$ctrl.closeModal()">Close</button>
                 </div>   
             </div> 
+
         </form>    
     </div>
 
 </div> 
+<div ng-if="$ctrl.resolve.resolveObj.mode === 'FDISPLAY'" class="container">
+
+        <span><strong>{{$ctrl.resolve.resolveObj.address.name}}</strong></span><br/>  
+        <span>{{$ctrl.resolve.resolveObj.address.address1}}</span><br/> 
+        <span ng-if = "$ctrl.resolve.resolveObj.address.address2 !==''"  >{{$ctrl.resolve.resolveObj.address.address2}}<br/></span>  
+        <span>{{$ctrl.resolve.resolveObj.address.city+" "+$ctrl.resolve.resolveObj.address.state+ " "+$ctrl.resolve.resolveObj.address.zip}}</span><br/>  
+        <span>{{$ctrl.resolve.resolveObj.address.country}}</span><br/> 
+        <span ng-if = "$ctrl.resolve.resolveObj.address.phone !==''" > Phone: {{$ctrl.resolve.resolveObj.address.phone}}</span>  
+ 
+</div>
+</div>

@@ -682,12 +682,33 @@ var account = {
     workflow.emit('validate');    
   },
 
+  getDefaultAccountAddress: function(req, res, next){
+    var queryObj = {
+      "account_id" : req.user.roles.account.id,
+      "default" : true
+    }
+
+    req.app.db.models.AccountAddress
+    .findOne(queryObj)
+    .select('_id name address1 address2 city state zip country phone')
+    .lean()
+    .exec(function(err, accountAddress) {
+        if (err) {
+          return callback(err, null);
+        }
+        //console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
+        return res.status(200).json(accountAddress);
+      });
+  },
 
   setDefaultAccountAddress: function(req,res,next) {
     var workflow = req.app.utility.workflow(req, res);
     workflow.on('validate', function() {
-      if (!req.body.address1) {
-        workflow.outcome.errfor.address1 = 'required';
+      if (!req.body._id) {
+        workflow.outcome.errfor._id = 'required';
+      }
+      if (workflow.hasErrors()) {
+        return workflow.emit('response');
       }
       workflow.emit('setDefault');
     });

@@ -103,8 +103,9 @@ exports = module.exports = function(app, passport) {
   app.put('/api/account/settings/measurements', account.updateAccountMeasurements);
   //app.get('/api/account/settings/addresses', account.getAccountAddresses);
   app.put('/api/account/settings/address', account.updateAccountAddress);
+  app.get('/api/account/settings/default-address', account.getDefaultAccountAddress);
   app.put('/api/account/settings/default-address', account.setDefaultAccountAddress);
-
+  
 
   //-----athorization required api-----
   app.all('/api/admin*', apiEnsureAuthenticated);

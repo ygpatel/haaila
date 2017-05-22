@@ -70,6 +70,10 @@ angular.module('services.accountResource', ['security.service']).factory('accoun
     return $http.put(baseUrl + '/account/settings/address', data).then(processResponse, processError);
   };  
 
+  resource.getDefaultAddress = function(){
+    return $http.get(baseUrl + '/account/settings/default-address').then(processResponse, processError);
+  };
+
   resource.setDefaultAddress = function(data){
     return $http.put(baseUrl + '/account/settings/default-address', data).then(processResponse, processError);
   };

@@ -38,14 +38,23 @@
                         <div uib-accordion-group class="panel-default" heading="Shipping Info" is-open="true">
                             <div class="row">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-8">
-                                    <address resolve='resolve'></address>
+                                <div class="col-md-8" ng-if="resolveShip.resolveObj.ready">
+                                    <address  resolve='resolveShip'></address>
                                 </div>
                                 <div class="col-md-2"></div>    
                             </div>
                         </div>
                         <div uib-accordion-group class="panel-default" heading="Payment Info">
-                           <div class="col-md-12" ui-view="paymentmethod"></div> 
+
+                           <payment-method paymentInfo='order.paymentInfo'></payment-method>
+
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8" ng-if="resolveBill.resolveObj.ready">
+                                    <address  resolve='resolveBill'></address>
+                                </div>
+                                <div class="col-md-2"></div>    
+                            </div>  
                         </div>
 
 
