@@ -113,6 +113,7 @@ var account = {
     var getAccountAddresses = function(callback) {
       var queryObj = {"account_id" : req.user.roles.account.id}
       req.app.db.models.AccountAddress.find(queryObj, '_id default name address1 address2 city state country zip phone').lean().exec(function(err, accountAddresses) {
+
         if (err) {
           return callback(err, null);
         }
@@ -160,6 +161,7 @@ var account = {
 
     require('async').parallel([getAccountData, getAccountAddresses, getUserData], asyncFinally);
   },
+
 
   update: function(req, res, next){
     var workflow = req.app.utility.workflow(req, res);
@@ -681,6 +683,24 @@ var account = {
 
     workflow.emit('validate');    
   },
+  //TODO refactor required between getAccountAddresses and getAccountDetails
+  getAccountAddresses: function(req,res,next) {
+      var queryObj = {"account_id" : req.user.roles.account.id}
+      req.app.db.models.AccountAddress
+      .find(queryObj, '_id default name address1 address2 city state country zip phone')
+      .lean()
+      .exec(function(err, accountAddresses) {
+
+        if (err) {
+          return next(err);
+        }
+       return res.status(200).json(accountAddresses);
+      });
+  },
+
+
+
+
 
   getDefaultAccountAddress: function(req, res, next){
     var queryObj = {
@@ -694,7 +714,7 @@ var account = {
     .lean()
     .exec(function(err, accountAddress) {
         if (err) {
-          return callback(err, null);
+          return next(err);
         }
         //console.log("Account Measurements  >>>>>" + JSON.stringify(accountMeasurements));
         return res.status(200).json(accountAddress);

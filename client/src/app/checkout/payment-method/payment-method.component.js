@@ -1,9 +1,9 @@
 (function () {
   'use strict';
   angular
-  .module('cart.paymentMethod', ['services.haailaUtils'])
+  .module('checkout.paymentMethod', ['services.haailaUtils'])
   .component('paymentMethod', {
-    templateUrl: 'cart/payment-method/payment-method.tpl.html',
+    templateUrl: 'checkout/payment-method/payment-method.tpl.html',
     bindings: {
       paymentInfo: '='
     },

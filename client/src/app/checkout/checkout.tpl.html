@@ -29,7 +29,7 @@
                 ng-submit="checkOut(checkoutForm.$valid)" 
                 novalidate > 
             <div class="row">
-                <div class="col-md-6" style="padding-right: 5px;">
+                <div class="col-md-6 padding-right">
                     <!-- Begin:Type of Checkout Login or Guest -->
 
                     <!--End:Type of Checkout Login or Guest -->
@@ -40,7 +40,7 @@
                                 <div class="col-md-8" ng-if="resolveShip.resolveObj.ready">
                                     <address  resolve='resolveShip'></address>
                                 </div>
-                                <div class="col-md-4"><button class="btn btn-default" ng-click="updateAddress('Shipping')">Change</button></div>    
+                                <div class="col-md-2"><button class="btn btn-default" ng-click="updateAddress('Shipping')">Change</button></div>    
                             </div>
                         </div>
                         <div uib-accordion-group class="panel-default" heading="Payment Info">
@@ -51,24 +51,17 @@
                                 <div class="col-md-8" ng-if="resolveBill.resolveObj.ready">
                                     <address  resolve='resolveBill'></address>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <button class="btn btn-default" 
-                                            ng-click="updateAddress('Billing')">Change</button>  
+                                            ng-click="updateAddress('Billing')">Change</button></div>  
                                 </div>    
                             </div>  
                         </div>
                     </uib-accordion>   
                 </div>
-
-                <div class="col-md-6" style="padding-right: 5px;">
-                    <div class="row">  
-
-                          <div class="panel panel-default">
-                            <div class="panel-heading">Cart Info</div>
-                            <div class="panel-body"><div ui-view="cartreview"></div>
-                          </div>
-
-                        
+                <div class="col-md-6">
+                    <div class="row">    
+                        <div class="col-md-12" ui-view="cartreview"></div> 
                         <div ui-view="ordersummary"></div> 
                     </div>    
                 </div>

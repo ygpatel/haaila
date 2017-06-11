@@ -8,7 +8,6 @@ angular.module('app', [
   'account',
   'admin',
   'product',
-  'cart',
   'checkout',
   'widgets',
   'services.i18nNotifications',

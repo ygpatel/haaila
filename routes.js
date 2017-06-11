@@ -101,7 +101,7 @@ exports = module.exports = function(app, passport) {
   app.get('/api/account/settings/measurements/:measurement_id', account.getAccountMeasurements);
   app.get('/api/account/settings/measurements', account.getAccountMeasurements);
   app.put('/api/account/settings/measurements', account.updateAccountMeasurements);
-  //app.get('/api/account/settings/addresses', account.getAccountAddresses);
+  app.get('/api/account/settings/addresses', account.getAccountAddresses);
   app.put('/api/account/settings/address', account.updateAccountAddress);
   app.get('/api/account/settings/default-address', account.getDefaultAccountAddress);
   app.put('/api/account/settings/default-address', account.setDefaultAccountAddress);

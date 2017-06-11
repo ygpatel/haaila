@@ -5,15 +5,13 @@
   .directive('addressBook', function(){
     return {
       restrict : 'EA',
-      scope: {
-      	addresses: "=",
-      	selectonly: "="
-      },
+
       templateUrl:'account/address-book/address-book.tpl.html',     
       controller: ['$scope', 'haailaUtils', 'accountResource', function billingInfoController($scope,haailaUtils, accountResource) {
       	$scope.updateAddress = function(address) {
       		haailaUtils.updateAddress(address, "EDIT");
       	};
+
       	$scope.addAddress = function() {
       		var newAddress = $scope.addresses[$scope.addresses.push({})-1];
       		haailaUtils.updateAddress(newAddress, "ADD");
@@ -22,6 +20,10 @@
       		haailaUtils.deleteAddress(address._id);
       		//update the alert with success or failure
       	};
+
+        $scope.selectAddress = function(address) {
+          $scope.$close(address);
+        };
       	$scope.setDefault = function(address) {
           var data = {};
           data._id = address._id;

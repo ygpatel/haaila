@@ -1,14 +1,14 @@
 (function () {
   'use strict';
   angular
-  .module('cart.orderSummary', ['services.haailaUtils'])
-  .directive('orderSummary', function(){
+  .module('checkout.billingInfo', ['services.haailaUtils'])
+  .directive('billingInfo', function(){
     return {
       restrict : 'EA',
-      templateUrl:'cart/order-summary/order-summary.tpl.html',     
+      templateUrl:'checkout/billing-info/billing-info.tpl.html',     
       controller: ["$scope", "haailaUtils",
         function billingInfoController($scope, haailaUtils) {
-
+          
        } 
       ]};   
   });

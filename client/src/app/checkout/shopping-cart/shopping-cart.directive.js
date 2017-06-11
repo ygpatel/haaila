@@ -1,11 +1,11 @@
 (function () {
   'use strict';
   angular
-  .module('cart.shoppingCart', ['services.haailaUtils'])
+  .module('checkout.shoppingCart', ['services.haailaUtils'])
   .directive('shoppingCart', function(){
     return {
       restrict : 'EA',
-      templateUrl:'cart/shopping-cart/shopping-cart.tpl.html',
+      templateUrl:'checkout/shopping-cart/shopping-cart.tpl.html',
       scope : {
         cart : "=",
         inCheckout : "="

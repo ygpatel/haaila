@@ -3,12 +3,10 @@
         <div class="title"><h3>Address Book</h3></div>
     </div>
 </div>
-<div style="width:70%">
+<div style="width:70%" class="center-block" >
     <div ng-if='!selectonly'>
         <div class="row add-record" data-ng-click="addAddress()" >
-            
-                <h4 class="center-block">Add New Address</h4>
-           
+            <h4 class="center-block">Add New Address</h4>      
         </div>
     </div>
     <div ng-repeat="address in addresses">
@@ -37,7 +35,7 @@
             <div ng-if='selectonly' class="col-sm-3">
                 <button 
                     type="button" class="btn btn-small" 
-                    data-ng-click="selectAddtress(address)">Select this address</button>
+                    data-ng-click="selectAddress(address)">Select</button>
             </div>
         </div>
     </div>

@@ -117,19 +117,19 @@ angular.module('services.haailaUtils', ['services.productResource', 'services.ac
     return promise;
   };
 
-  haailaUtils.getDefaultAddress = function() {
-    var promise = accountResource.getDefaultAddress()
+  haailaUtils.getAccountAddresses = function() {
+    var promise = accountResource.getAccountAddresses()
       .then(function(data){
         //handles url with query(search) parameter
         return $q.resolve(data);
       }, function(reason){
         //rejected either user is un-authorized or un-authenticated
         //redirectUrl = reason === 'unauthorized-client'? '/account': '/login';
-        return $q.reject("Error fetching default address");
+        return $q.reject("Error fetching addresses");
       })
       .catch(function(){
         //todo proper handling of redirect in case of errors or exceptions.
-        return $q.reject("Error fetching default address");
+        return $q.reject("Error fetching addresses");
       });
     return promise;  
   };
